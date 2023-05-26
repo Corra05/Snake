@@ -92,7 +92,7 @@ public class Map extends JFrame {
 
         //Impostazioni di visualizzazione
         this.pack();
-        this.setLocation(ScreenSize.getWidth() / 2 - this.getWidth() / 2, ScreenSize.getHeight() / 2 - this.getHeight() / 2);
+        this.setLocation((ScreenSize.getWidth() / 2 - this.getWidth() / 2), (ScreenSize.getHeight() / 2 - this.getHeight() / 2));
         this.setResizable(false);
         this.setVisible(true);
         this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
