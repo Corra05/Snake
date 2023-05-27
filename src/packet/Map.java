@@ -5,8 +5,26 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.util.Vector;
 
-public class Map extends JFrame {
+public class Map extends JFrame{
     final int dimension = 18;
+
+    //Immagini utilizzate
+    ImageIcon apple = new ImageIcon(new ImageIcon("images/apple.png").getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH));
+
+    ImageIcon snakeBodyHorizontal = new ImageIcon(new ImageIcon("images/SnakeBodyHorizontal.png").getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH));
+    ImageIcon snakeBodyVertical = new ImageIcon(new ImageIcon("images/SnakeBodyVertical.png").getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH));
+
+    ImageIcon snakeHeadRight = new ImageIcon(new ImageIcon("images/Right/SnakeHeadRight.png").getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH));
+    ImageIcon snakeTailRight = new ImageIcon(new ImageIcon("images/Right/SnakeTailRight.png").getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH));
+
+    ImageIcon snakeHeadLeft = new ImageIcon(new ImageIcon("images/Left/SnakeHeadLeft.png").getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH));
+    ImageIcon snakeTailLeft = new ImageIcon(new ImageIcon("images/Left/SnakeTailLeft.png").getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH));
+
+    ImageIcon snakeHeadTop = new ImageIcon(new ImageIcon("images/Top/SnakeHeadBottom.png").getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH));
+    ImageIcon snakeTailTop = new ImageIcon(new ImageIcon("images/Top/SnakeTailBottom.png").getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH));
+
+    ImageIcon snakeHeadBottom = new ImageIcon(new ImageIcon("images/Bottom/SnakeHeadBottom.png").getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH));
+    ImageIcon snakeTailBottom = new ImageIcon(new ImageIcon("images/Bottom/SnakeTailBottom.png").getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH));
 
     //Vettore contenente le coordinate del serpente
     Vector<String> snakeCoords = new Vector();
@@ -31,6 +49,9 @@ public class Map extends JFrame {
     public Map(){
         setTitle("GameMap");
 
+        Thread clock = new Thread(new Clock(this));
+        clock.start();
+
         cont.setLayout(new BoxLayout(cont, BoxLayout.Y_AXIS));
 
         //Aggiunta barra superiore
@@ -39,6 +60,7 @@ public class Map extends JFrame {
         timer.setBorder(new EmptyBorder(10,30,10,0));
 
         upperBarDx.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        appleIcon.setIcon(apple);
         score.setText("0");
         score.setBorder(new EmptyBorder(10,0,10,30));
         upperBarDx.add(appleIcon);
@@ -84,6 +106,14 @@ public class Map extends JFrame {
                     }
 
                     grid.add(tile[i][j]);   //Aggiunta della casella alla griglia
+
+                    if(i == 8 && j == 2){
+                        tile[i][j].setIcon(snakeTailRight);
+                    }else if(i == 8 && j == 3){
+                        tile[i][j].setIcon(snakeBodyHorizontal);
+                    }else if(i == 8 && j == 4){
+                        tile[i][j].setIcon(snakeHeadRight);
+                    }
                 }
             }
         }
