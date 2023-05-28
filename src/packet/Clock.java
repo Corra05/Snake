@@ -12,6 +12,8 @@ public class Clock implements Runnable{
     @Override
     public void run() {
         while(true){
+            SnakeIcons();
+
             sec++;
 
             if(!(sec < 60)){
@@ -38,6 +40,18 @@ public class Clock implements Runnable{
                     map.timer.setText(min + ":" + sec);
                 }
             }
+        }
+    }
+
+    public void SnakeIcons(){
+        if(map.direction.equals("Right")){
+            map.snakeCoords
+        } else if (map.direction.equals("Left")) {
+
+        }else if (map.direction.equals("Up")) {
+
+        }else if (map.direction.equals("Down")) {
+
         }
     }
 }

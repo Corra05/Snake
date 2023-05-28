@@ -7,6 +7,7 @@ import java.util.Vector;
 
 public class Map extends JFrame{
     final int dimension = 18;
+    String direction = "Right";
 
     //Immagini utilizzate
     ImageIcon apple = new ImageIcon(new ImageIcon("images/apple.png").getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH));
@@ -39,12 +40,12 @@ public class Map extends JFrame{
     JLabel score = new JLabel();
 
     JPanel grid = new JPanel();
-    Tile[][] tile = new Tile[dimension][dimension];
+    Tile[][] tile = new Tile[dimension - 1][dimension - 1];
 
     //Oggetti legati all'estetica
-    Color lightGreen = new Color(95, 247, 72);
-    Color darkGreen = new Color(50, 190, 31);
-    Color mapBorders = new Color(27, 110, 20);
+    Color lightGreen = new Color(45, 163, 199);
+    Color darkGreen = new Color(43, 133, 222);
+    Color mapBorders = new Color(11, 15, 103);
 
     public Map(){
         setTitle("GameMap");
@@ -117,6 +118,10 @@ public class Map extends JFrame{
                 }
             }
         }
+
+        snakeCoords.add("8 2");
+        snakeCoords.add("8 3");
+        snakeCoords.add("8 4");
 
         cont.add(grid);
 
