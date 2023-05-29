@@ -3,10 +3,12 @@ package packet;
 public class Clock implements Runnable{
     int sec = 0;
     int min = 0;
+    String str;
 
-    Map map;
-    public Clock(Map map){
-        this.map = map;
+    PlayerListener player;
+
+    public Clock(PlayerListener player){
+        this.player = player;
     }
 
     @Override
@@ -29,28 +31,67 @@ public class Clock implements Runnable{
 
             if(sec < 10){
                 if(min < 10){
-                    map.timer.setText("0" + min + ":0" + sec);
+                    player.map.timer.setText("0" + min + ":0" + sec);
                 }else{
-                    map.timer.setText(min + ":0" + sec);
+                    player.map.timer.setText(min + ":0" + sec);
                 }
             }else{
                 if(min < 10){
-                    map.timer.setText("0" + min + ":" + sec);
+                    player.map.timer.setText("0" + min + ":" + sec);
                 }else{
-                    map.timer.setText(min + ":" + sec);
+                    player.map.timer.setText(min + ":" + sec);
                 }
             }
         }
     }
 
     public void SnakeIcons(){
-        if(map.direction.equals("Right")){
-            map.snakeCoords
-        } else if (map.direction.equals("Left")) {
+        for(int i = 0; i < player.map.snakeCoords.size(); i++){
+            str =  player.map.snakeCoords.elementAt(i);
 
-        }else if (map.direction.equals("Up")) {
+            int x = str.charAt(0) - 48;
+            int y = str.charAt(2) - 48;
 
-        }else if (map.direction.equals("Down")) {
+            if(player.map.tile[x][y].direction.equals("Right")){
+                if(i == 0){
+                    player.map.tile[x][y].setIcon(player.map.snakeHeadRight);
+                }
+                else if(i == player.map.snakeCoords.size() - 1){
+                    player.map.tile[x][y].setIcon(player.map.snakeTailRight);
+                }else{
+                    player.map.tile[x][y].setIcon(player.map.snakeBodyHorizontal);
+                }
+            }
+            else if(player.map.tile[x][y].direction.equals("Left")){
+                if(i == 0){
+                    player.map.tile[x][y].setIcon(player.map.snakeHeadLeft);
+                }
+                else if(i == player.map.snakeCoords.size() - 1){
+                    player.map.tile[x][y].setIcon(player.map.snakeTailLeft);
+                }else{
+                    player.map.tile[x][y].setIcon(player.map.snakeBodyHorizontal);
+                }
+            }
+            else if(player.map.tile[x][y].direction.equals("Top")){
+                if(i == 0){
+                    player.map.tile[x][y].setIcon(player.map.snakeHeadTop);
+                }
+                else if(i == player.map.snakeCoords.size() - 1){
+                    player.map.tile[x][y].setIcon(player.map.snakeTailTop);
+                }else{
+                    player.map.tile[x][y].setIcon(player.map.snakeBodyVertical);
+                }
+            }
+            else if(player.map.tile[x][y].direction.equals("Bottom")){
+                if(i == 0){
+                    player.map.tile[x][y].setIcon(player.map.snakeHeadBottom);
+                }
+                else if(i == player.map.snakeCoords.size() - 1){
+                    player.map.tile[x][y].setIcon(player.map.snakeTailBottom);
+                }else{
+                    player.map.tile[x][y].setIcon(player.map.snakeBodyVertical);
+                }
+            }
 
         }
     }

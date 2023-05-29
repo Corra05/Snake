@@ -7,28 +7,28 @@ import java.util.Vector;
 
 public class Map extends JFrame{
     final int dimension = 18;
-    String direction = "Right";
+    final int sizes = 40;
 
     //Immagini utilizzate
     ImageIcon apple = new ImageIcon(new ImageIcon("images/apple.png").getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH));
 
-    ImageIcon snakeBodyHorizontal = new ImageIcon(new ImageIcon("images/SnakeBodyHorizontal.png").getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH));
-    ImageIcon snakeBodyVertical = new ImageIcon(new ImageIcon("images/SnakeBodyVertical.png").getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH));
+    ImageIcon snakeBodyHorizontal = new ImageIcon(new ImageIcon("images/SnakeBodyHorizontal.png").getImage().getScaledInstance(sizes, sizes, Image.SCALE_SMOOTH));
+    ImageIcon snakeBodyVertical = new ImageIcon(new ImageIcon("images/SnakeBodyVertical.png").getImage().getScaledInstance(sizes, sizes, Image.SCALE_SMOOTH));
 
-    ImageIcon snakeHeadRight = new ImageIcon(new ImageIcon("images/Right/SnakeHeadRight.png").getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH));
-    ImageIcon snakeTailRight = new ImageIcon(new ImageIcon("images/Right/SnakeTailRight.png").getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH));
+    ImageIcon snakeHeadRight = new ImageIcon(new ImageIcon("images/Right/SnakeHeadRight.png").getImage().getScaledInstance(sizes, sizes, Image.SCALE_SMOOTH));
+    ImageIcon snakeTailRight = new ImageIcon(new ImageIcon("images/Right/SnakeTailRight.png").getImage().getScaledInstance(sizes, sizes, Image.SCALE_SMOOTH));
 
-    ImageIcon snakeHeadLeft = new ImageIcon(new ImageIcon("images/Left/SnakeHeadLeft.png").getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH));
-    ImageIcon snakeTailLeft = new ImageIcon(new ImageIcon("images/Left/SnakeTailLeft.png").getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH));
+    ImageIcon snakeHeadLeft = new ImageIcon(new ImageIcon("images/Left/SnakeHeadLeft.png").getImage().getScaledInstance(sizes, sizes, Image.SCALE_SMOOTH));
+    ImageIcon snakeTailLeft = new ImageIcon(new ImageIcon("images/Left/SnakeTailLeft.png").getImage().getScaledInstance(sizes, sizes, Image.SCALE_SMOOTH));
 
-    ImageIcon snakeHeadTop = new ImageIcon(new ImageIcon("images/Top/SnakeHeadBottom.png").getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH));
-    ImageIcon snakeTailTop = new ImageIcon(new ImageIcon("images/Top/SnakeTailBottom.png").getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH));
+    ImageIcon snakeHeadTop = new ImageIcon(new ImageIcon("images/Top/SnakeHeadBottom.png").getImage().getScaledInstance(sizes, sizes, Image.SCALE_SMOOTH));
+    ImageIcon snakeTailTop = new ImageIcon(new ImageIcon("images/Top/SnakeTailBottom.png").getImage().getScaledInstance(sizes, sizes, Image.SCALE_SMOOTH));
 
-    ImageIcon snakeHeadBottom = new ImageIcon(new ImageIcon("images/Bottom/SnakeHeadBottom.png").getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH));
-    ImageIcon snakeTailBottom = new ImageIcon(new ImageIcon("images/Bottom/SnakeTailBottom.png").getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH));
+    ImageIcon snakeHeadBottom = new ImageIcon(new ImageIcon("images/Bottom/SnakeHeadBottom.png").getImage().getScaledInstance(sizes, sizes, Image.SCALE_SMOOTH));
+    ImageIcon snakeTailBottom = new ImageIcon(new ImageIcon("images/Bottom/SnakeTailBottom.png").getImage().getScaledInstance(sizes, sizes, Image.SCALE_SMOOTH));
 
     //Vettore contenente le coordinate del serpente
-    Vector<String> snakeCoords = new Vector();
+    Vector<String> snakeCoords = new Vector<String>();
 
     //Oggetti legati all'interfaccia
     Container cont = this.getContentPane();
@@ -47,11 +47,11 @@ public class Map extends JFrame{
     Color darkGreen = new Color(43, 133, 222);
     Color mapBorders = new Color(11, 15, 103);
 
+    PlayerListener keyboard;
+
+
     public Map(){
         setTitle("GameMap");
-
-        Thread clock = new Thread(new Clock(this));
-        clock.start();
 
         cont.setLayout(new BoxLayout(cont, BoxLayout.Y_AXIS));
 
@@ -88,7 +88,7 @@ public class Map extends JFrame{
                 //Aggiunta delle caselle della mappa
                 else {
                     tile[i][j] = new Tile(this, i, j);      //Popolamento matrice
-                    tile[i][j].setPreferredSize(new Dimension(40,40));
+                    tile[i][j].setPreferredSize(new Dimension(sizes,sizes));
                     tile[i][j].setOpaque(true);
 
                     //Aggiunta di un colore alle caselle
@@ -107,23 +107,17 @@ public class Map extends JFrame{
                     }
 
                     grid.add(tile[i][j]);   //Aggiunta della casella alla griglia
-
-                    if(i == 8 && j == 2){
-                        tile[i][j].setIcon(snakeTailRight);
-                    }else if(i == 8 && j == 3){
-                        tile[i][j].setIcon(snakeBodyHorizontal);
-                    }else if(i == 8 && j == 4){
-                        tile[i][j].setIcon(snakeHeadRight);
-                    }
                 }
             }
         }
 
-        snakeCoords.add("8 2");
-        snakeCoords.add("8 3");
-        snakeCoords.add("8 4");
+        initialSetup();
+
+        System.out.println(snakeCoords.elementAt(0));
 
         cont.add(grid);
+
+        keyboard = new PlayerListener(this);
 
         //Impostazioni di visualizzazione
         this.pack();
@@ -131,5 +125,15 @@ public class Map extends JFrame{
         this.setResizable(false);
         this.setVisible(true);
         this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+    }
+
+    public void initialSetup(){
+        tile[8][4].direction = "Right";
+        tile[8][3].direction = "Right";
+        tile[8][2].direction = "Right";
+
+        snakeCoords.addElement("8 4");
+        snakeCoords.addElement("8 3");
+        snakeCoords.addElement("8 2");
     }
 }
