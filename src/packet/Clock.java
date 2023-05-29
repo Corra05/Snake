@@ -15,6 +15,7 @@ public class Clock implements Runnable{
     public void run() {
         while(true){
             SnakeIcons();
+            moveSnake();
 
             sec++;
 
@@ -43,6 +44,10 @@ public class Clock implements Runnable{
                 }
             }
         }
+    }
+
+    public void moveSnake(){
+
     }
 
     public void SnakeIcons(){

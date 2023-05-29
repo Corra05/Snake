@@ -49,7 +49,6 @@ public class Map extends JFrame{
 
     PlayerListener keyboard;
 
-
     public Map(){
         setTitle("GameMap");
 
@@ -113,11 +112,10 @@ public class Map extends JFrame{
 
         initialSetup();
 
-        System.out.println(snakeCoords.elementAt(0));
-
         cont.add(grid);
 
         keyboard = new PlayerListener(this);
+        this.addKeyListener(keyboard);
 
         //Impostazioni di visualizzazione
         this.pack();
