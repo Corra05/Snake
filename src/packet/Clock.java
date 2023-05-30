@@ -15,7 +15,6 @@ public class Clock implements Runnable{
     public void run() {
         while(true){
             SnakeIcons();
-            moveSnake();
 
             sec++;
 
@@ -43,19 +42,19 @@ public class Clock implements Runnable{
                     player.map.timer.setText(min + ":" + sec);
                 }
             }
+
+            moveSnake();
+            System.out.println("Ciclo completato");
         }
-    }
-
-    public void moveSnake(){
-
     }
 
     public void SnakeIcons(){
         for(int i = 0; i < player.map.snakeCoords.size(); i++){
             str =  player.map.snakeCoords.elementAt(i);
 
-            int x = str.charAt(0) - 48;
-            int y = str.charAt(2) - 48;
+            String[] coordinates = str.split(" ");
+            int x = Integer.parseInt(coordinates[0]);
+            int y = Integer.parseInt(coordinates[1]);
 
             if(player.map.tile[x][y].direction.equals("Right")){
                 if(i == 0){
@@ -98,6 +97,88 @@ public class Clock implements Runnable{
                 }
             }
 
+        }
+    }
+
+    public void moveSnake(){
+        for(int i = 0; i < player.map.snakeCoords.size(); i++){
+            str =  player.map.snakeCoords.elementAt(i);
+
+            String[] coordinates = str.split(" ");
+            int x = Integer.parseInt(coordinates[0]);
+            int y = Integer.parseInt(coordinates[1]);
+
+            if(player.map.tile[x][y].direction.equals("Right")){
+                try{
+                    player.map.tile[x][y].direction = null;
+                    player.map.tile[x][y + 1].direction = "Right";
+
+                    player.map.snakeCoords.set(i, String.valueOf(x) + " " + String.valueOf(y + 1));
+                }catch (Exception e){
+                    System.out.println("Partita persa");
+                    System.exit(0);
+                }
+
+                if(i == player.map.snakeCoords.size() - 1){
+                    player.map.tile[x][y].setIcon(null);
+                }
+            }
+            else if(player.map.tile[x][y].direction.equals("Left")){
+                try{
+                    player.map.tile[x][y].direction = null;
+                    player.map.tile[x][y - 1].direction = "Left";
+
+                    player.map.snakeCoords.set(i, String.valueOf(x) + " " + String.valueOf(y - 1));
+
+                    System.out.println(player.map.snakeCoords.elementAt(i));
+                }catch (Exception e){
+                    System.out.println("Partita persa");
+                    System.exit(0);
+                }
+
+                if(i == player.map.snakeCoords.size()){
+                    player.map.tile[x][y].setIcon(null);
+                }
+            }
+            else if(player.map.tile[x][y].direction.equals("Top")){
+                try{
+                    player.map.tile[x][y].direction = null;
+                    player.map.tile[x - 1][y].direction = "Top";
+
+                    player.map.snakeCoords.set(i, String.valueOf(x - 1) + " " + String.valueOf(y));
+
+                    if(player.map.tile[x][y].prevDirection.equals(player.map.tile[x][y].direction)){
+                        if(player.map.tile[x][y].prevDirection.equals("Right")){
+                            player.map.tile[x - 1][y].prevDirection = player.map.tile[x][y].direction;
+                            player.map.tile[x - 1][y].direction = "Top";
+                        }
+                    }
+
+                    player.map.tile[x][y].prevDirection = null;
+                }catch (Exception e){
+                    System.out.println("Partita persa");
+                    System.exit(0);
+                }
+
+                if(i == player.map.snakeCoords.size()){
+                    player.map.tile[x][y].setIcon(null);
+                }
+            }
+            else if(player.map.tile[x][y].direction.equals("Bottom")){
+                try{
+                    player.map.tile[x][y].direction = null;
+                    player.map.tile[x + 1][y].direction = "Bottom";
+
+                    player.map.snakeCoords.set(i, String.valueOf(x + 1) + " " + String.valueOf(y));
+                }catch (Exception e){
+                    System.out.println("Partita persa");
+                    System.exit(0);
+                }
+
+                if(i == player.map.snakeCoords.size()){
+                    player.map.tile[x][y].setIcon(null);
+                }
+            }
         }
     }
 }

@@ -10,7 +10,7 @@ public class Map extends JFrame{
     final int sizes = 40;
 
     //Immagini utilizzate
-    ImageIcon apple = new ImageIcon(new ImageIcon("images/apple.png").getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH));
+    ImageIcon apple = new ImageIcon(new ImageIcon("images/apple.png").getImage().getScaledInstance(sizes, sizes, Image.SCALE_SMOOTH));
 
     ImageIcon snakeBodyHorizontal = new ImageIcon(new ImageIcon("images/SnakeBodyHorizontal.png").getImage().getScaledInstance(sizes, sizes, Image.SCALE_SMOOTH));
     ImageIcon snakeBodyVertical = new ImageIcon(new ImageIcon("images/SnakeBodyVertical.png").getImage().getScaledInstance(sizes, sizes, Image.SCALE_SMOOTH));
@@ -21,12 +21,16 @@ public class Map extends JFrame{
     ImageIcon snakeHeadLeft = new ImageIcon(new ImageIcon("images/Left/SnakeHeadLeft.png").getImage().getScaledInstance(sizes, sizes, Image.SCALE_SMOOTH));
     ImageIcon snakeTailLeft = new ImageIcon(new ImageIcon("images/Left/SnakeTailLeft.png").getImage().getScaledInstance(sizes, sizes, Image.SCALE_SMOOTH));
 
-    ImageIcon snakeHeadTop = new ImageIcon(new ImageIcon("images/Top/SnakeHeadBottom.png").getImage().getScaledInstance(sizes, sizes, Image.SCALE_SMOOTH));
-    ImageIcon snakeTailTop = new ImageIcon(new ImageIcon("images/Top/SnakeTailBottom.png").getImage().getScaledInstance(sizes, sizes, Image.SCALE_SMOOTH));
+    ImageIcon snakeHeadTop = new ImageIcon(new ImageIcon("images/Top/SnakeHeadTop.png").getImage().getScaledInstance(sizes, sizes, Image.SCALE_SMOOTH));
+    ImageIcon snakeTailTop = new ImageIcon(new ImageIcon("images/Top/SnakeTailTop.png").getImage().getScaledInstance(sizes, sizes, Image.SCALE_SMOOTH));
 
     ImageIcon snakeHeadBottom = new ImageIcon(new ImageIcon("images/Bottom/SnakeHeadBottom.png").getImage().getScaledInstance(sizes, sizes, Image.SCALE_SMOOTH));
     ImageIcon snakeTailBottom = new ImageIcon(new ImageIcon("images/Bottom/SnakeTailBottom.png").getImage().getScaledInstance(sizes, sizes, Image.SCALE_SMOOTH));
-
+    ImageIcon snakeCornerBottomLeft = new ImageIcon(new ImageIcon("images/Corner/SnakeCornerBottomLeft.png").getImage().getScaledInstance(sizes, sizes, Image.SCALE_SMOOTH));
+    ImageIcon snakeCornerBottomRight = new ImageIcon(new ImageIcon("images/Corner/SnakeCornerBottomRight.png").getImage().getScaledInstance(sizes, sizes, Image.SCALE_SMOOTH));
+    ImageIcon snakeCornerTopLeft = new ImageIcon(new ImageIcon("images/Corner/SnakeCornerTopLeft.png").getImage().getScaledInstance(sizes, sizes, Image.SCALE_SMOOTH));
+    ImageIcon snakeCornerTopRight = new ImageIcon(new ImageIcon("images/Corner/SnakeCornerTopRight.png").getImage().getScaledInstance(sizes, sizes, Image.SCALE_SMOOTH));
+    
     //Vettore contenente le coordinate del serpente
     Vector<String> snakeCoords = new Vector<String>();
 
