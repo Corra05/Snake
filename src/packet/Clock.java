@@ -14,6 +14,7 @@ public class Clock implements Runnable{
     @Override
     public void run() {
         while(true){
+            System.out.println("c");
             SnakeIcons();
 
             sec++;
@@ -115,7 +116,7 @@ public class Clock implements Runnable{
 
                     player.map.snakeCoords.set(i, String.valueOf(x) + " " + String.valueOf(y + 1));
                 }catch (Exception e){
-                    System.out.println("Partita persa");
+                    System.out.println("Partita persa 1");
                     System.exit(0);
                 }
 
@@ -132,7 +133,7 @@ public class Clock implements Runnable{
 
                     System.out.println(player.map.snakeCoords.elementAt(i));
                 }catch (Exception e){
-                    System.out.println("Partita persa");
+                    System.out.println("Partita persa 2");
                     System.exit(0);
                 }
 
@@ -147,17 +148,24 @@ public class Clock implements Runnable{
 
                     player.map.snakeCoords.set(i, String.valueOf(x - 1) + " " + String.valueOf(y));
 
-                    if(player.map.tile[x][y].prevDirection.equals(player.map.tile[x][y].direction)){
-                        if(player.map.tile[x][y].prevDirection.equals("Right")){
-                            player.map.tile[x - 1][y].prevDirection = player.map.tile[x][y].direction;
-                            player.map.tile[x - 1][y].direction = "Top";
-                        }
+                    if(player.map.tile[x][y].prevDirection.equals("Right")){
+                        player.map.tile[x][y - 1].direction = null;
+                        player.map.tile[x][y - 1].prevDirection = null;
+
+                        player.map.tile[x + 1][y].direction = "Top";
                     }
+
+                    str =  player.map.snakeCoords.elementAt(i + 1);
+
+                    coordinates = str.split(" ");
+                    int x1 = Integer.parseInt(coordinates[0]);
+                    int y1 = Integer.parseInt(coordinates[1]);
+
+                    player.map.tile[x1][y1 + 1].direction = "Top";
 
                     player.map.tile[x][y].prevDirection = null;
                 }catch (Exception e){
-                    System.out.println("Partita persa");
-                    System.exit(0);
+                    System.out.println(e);
                 }
 
                 if(i == player.map.snakeCoords.size()){
@@ -171,7 +179,7 @@ public class Clock implements Runnable{
 
                     player.map.snakeCoords.set(i, String.valueOf(x + 1) + " " + String.valueOf(y));
                 }catch (Exception e){
-                    System.out.println("Partita persa");
+                    System.out.println("Partita persa 4");
                     System.exit(0);
                 }
 

@@ -15,7 +15,7 @@ public class Tile extends JLabel {
 
     Map map;
 
-    public Tile(Map map, int i, int j){
+    public Tile(int i, int j){
         this.map = map;
         this.i = i;
         this.j = j;
