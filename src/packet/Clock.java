@@ -1,21 +1,21 @@
 package packet;
 
-public class Clock implements Runnable{
+public class Clock implements Runnable {
     int sec = 0;
     int min = 0;
     String str;
-
+    String[] coordinates;
     PlayerListener player;
 
-    public Clock(PlayerListener player){
+    public Clock(PlayerListener player) {
         this.player = player;
     }
 
     @Override
     public void run() {
-        while(true){
-            for(int i = 0; i < player.map.snakeCoords.size(); i++){
-                str =  player.map.snakeCoords.elementAt(i);
+        while (true) {
+            for (int i = 0; i < player.map.snakeCoords.size(); i++) {
+                str = player.map.snakeCoords.elementAt(i);
 
                 String[] coordinates = str.split(" ");
                 int x = Integer.parseInt(coordinates[0]);
@@ -28,7 +28,7 @@ public class Clock implements Runnable{
 
             sec++;
 
-            if(!(sec < 60)){
+            if (!(sec < 60)) {
                 sec = 0;
                 min++;
             }
@@ -39,16 +39,16 @@ public class Clock implements Runnable{
                 throw new RuntimeException(e);
             }
 
-            if(sec < 10){
-                if(min < 10){
+            if (sec < 10) {
+                if (min < 10) {
                     player.map.timer.setText("0" + min + ":0" + sec);
-                }else{
+                } else {
                     player.map.timer.setText(min + ":0" + sec);
                 }
-            }else{
-                if(min < 10){
+            } else {
+                if (min < 10) {
                     player.map.timer.setText("0" + min + ":" + sec);
-                }else{
+                } else {
                     player.map.timer.setText(min + ":" + sec);
                 }
             }
@@ -58,51 +58,44 @@ public class Clock implements Runnable{
         }
     }
 
-    public void SnakeIcons(){
-        for(int i = 0; i < player.map.snakeCoords.size(); i++){
-            str =  player.map.snakeCoords.elementAt(i);
+    public void SnakeIcons() {
+        for (int i = 0; i < player.map.snakeCoords.size(); i++) {
+            str = player.map.snakeCoords.elementAt(i);
 
             String[] coordinates = str.split(" ");
             int x = Integer.parseInt(coordinates[0]);
             int y = Integer.parseInt(coordinates[1]);
 
-            if(player.map.tile[x][y].direction.equals("Right")){
-                if(i == 0){
+            if (player.map.tile[x][y].direction.equals("Right")) {
+                if (i == 0) {
                     player.map.tile[x][y].setIcon(player.map.snakeHeadRight);
-                }
-                else if(i == player.map.snakeCoords.size() - 1){
+                } else if (i == player.map.snakeCoords.size() - 1) {
                     player.map.tile[x][y].setIcon(player.map.snakeTailRight);
-                }else{
+                } else {
                     player.map.tile[x][y].setIcon(player.map.snakeBodyHorizontal);
                 }
-            }
-            else if(player.map.tile[x][y].direction.equals("Left")){
-                if(i == 0){
+            } else if (player.map.tile[x][y].direction.equals("Left")) {
+                if (i == 0) {
                     player.map.tile[x][y].setIcon(player.map.snakeHeadLeft);
-                }
-                else if(i == player.map.snakeCoords.size() - 1){
+                } else if (i == player.map.snakeCoords.size() - 1) {
                     player.map.tile[x][y].setIcon(player.map.snakeTailLeft);
-                }else{
+                } else {
                     player.map.tile[x][y].setIcon(player.map.snakeBodyHorizontal);
                 }
-            }
-            else if(player.map.tile[x][y].direction.equals("Top")){
-                if(i == 0){
+            } else if (player.map.tile[x][y].direction.equals("Top")) {
+                if (i == 0) {
                     player.map.tile[x][y].setIcon(player.map.snakeHeadTop);
-                }
-                else if(i == player.map.snakeCoords.size() - 1){
+                } else if (i == player.map.snakeCoords.size() - 1) {
                     player.map.tile[x][y].setIcon(player.map.snakeTailTop);
-                }else{
+                } else {
                     player.map.tile[x][y].setIcon(player.map.snakeBodyVertical);
                 }
-            }
-            else if(player.map.tile[x][y].direction.equals("Bottom")){
-                if(i == 0){
+            } else if (player.map.tile[x][y].direction.equals("Bottom")) {
+                if (i == 0) {
                     player.map.tile[x][y].setIcon(player.map.snakeHeadBottom);
-                }
-                else if(i == player.map.snakeCoords.size() - 1){
+                } else if (i == player.map.snakeCoords.size() - 1) {
                     player.map.tile[x][y].setIcon(player.map.snakeTailBottom);
-                }else{
+                } else {
                     player.map.tile[x][y].setIcon(player.map.snakeBodyVertical);
                 }
             }
@@ -110,73 +103,181 @@ public class Clock implements Runnable{
         }
     }
 
-    public void moveSnake(){
-        for(int i = 0; i < player.map.snakeCoords.size(); i++){
-            str =  player.map.snakeCoords.elementAt(i);
+    public void moveSnake() {
+        //Coordinate della testa del serpente
+        str = player.map.snakeCoords.elementAt(0);
 
-            String[] coordinates = str.split(" ");
-            int x = Integer.parseInt(coordinates[0]);
-            int y = Integer.parseInt(coordinates[1]);
+        coordinates = str.split(" ");
+        int x0 = Integer.parseInt(coordinates[0]);
+        int y0 = Integer.parseInt(coordinates[1]);
 
-            if(player.map.tile[x][y].direction.equals("Right")){
-                try{
-                    player.map.tile[x][y].direction = null;
-                    player.map.tile[x][y + 1].direction = "Right";
+        //Metto le coordinate di ogni posizione in un array
+        String[] coordinates1 = new String[player.map.snakeCoords.size()];
+        for (int i = 0; i < player.map.snakeCoords.size(); i++) {
+            coordinates1[i] = player.map.snakeCoords.elementAt(i);
+        }
 
-                    player.map.snakeCoords.set(i, String.valueOf(x) + " " + String.valueOf(y + 1));
-                }catch (Exception e){
-                    System.out.println("Partita persa 1");
-                    System.exit(0);
+        //Spostamento del serpente in caso la testa sia rivolta a destra
+        if (player.map.tile[x0][y0].direction.equals("Right")) {
+            try {
+                //Faccio avanzare la testa di una posizione
+                player.map.tile[x0][y0].direction = null;
+                player.map.tile[x0][y0 + 1].direction = "Right";
+
+                //Ciclo nel quale grazie all'array di prima posso far prendere a ogni casella del serpente
+                //il valore che aveva quella successiva prima di avanzare di una posizione
+                for (int i = 0; i < player.map.snakeCoords.size() - 1; i++) {
+                    //Coordinate della posizione della coda
+                    str = player.map.snakeCoords.elementAt(player.map.snakeCoords.size() - 1);
+
+                    coordinates = str.split(" ");
+                    int xMax = Integer.parseInt(coordinates[0]);
+                    int yMax = Integer.parseInt(coordinates[1]);
+
+                    //Elimino la coda
+                    player.map.tile[xMax][yMax].setIcon(null);
+
+
+                    //Prendo le coordinate di ogni posizione dell'array
+                    coordinates = coordinates1[i].split(" ");
+
+                    int x1 = Integer.parseInt(coordinates[0]);
+                    int y1 = Integer.parseInt(coordinates[1]);
+
+                    //Imposto le coordinate della cella successiva
+                    player.map.snakeCoords.set(i + 1, String.valueOf(x1) + " " + String.valueOf(y1));
+                    player.map.tile[x1][y1].direction = "Right";
                 }
 
-                if(i == player.map.snakeCoords.size() - 1){
-                    player.map.tile[x][y].setIcon(null);
-                }
+                //Imposto il nuovo valore della posizione della testa
+                player.map.snakeCoords.set(0, String.valueOf(x0) + " " + String.valueOf(y0 + 1));
+
+            } catch (Exception e) {
+                System.out.println(e);
+                System.exit(0);
             }
-            else if(player.map.tile[x][y].direction.equals("Left")){
-                try{
-                    player.map.tile[x][y].direction = null;
-                    player.map.tile[x][y - 1].direction = "Left";
+        }
 
-                    player.map.snakeCoords.set(i, String.valueOf(x) + " " + String.valueOf(y - 1));
+        //Spostamento del serpente in caso la testa sia rivolta a sinistra
+        else if (player.map.tile[x0][y0].direction.equals("Left")) {
+            try {
+                //Faccio avanzare la testa di una posizione
+                player.map.tile[x0][y0].direction = null;
+                player.map.tile[x0][y0 - 1].direction = "Left";
 
-                }catch (Exception e){
-                    System.out.println("Partita persa 2");
-                    System.exit(0);
+                //Ciclo nel quale grazie all'array di prima posso far prendere a ogni casella del serpente
+                //il valore che aveva quella successiva prima di avanzare di una posizione
+                for (int i = 0; i < player.map.snakeCoords.size() - 1; i++) {
+                    //Coordinate della posizione della coda
+                    str = player.map.snakeCoords.elementAt(player.map.snakeCoords.size() - 1);
+
+                    coordinates = str.split(" ");
+                    int xMax = Integer.parseInt(coordinates[0]);
+                    int yMax = Integer.parseInt(coordinates[1]);
+
+                    //Elimino la coda
+                    player.map.tile[xMax][yMax].setIcon(null);
+
+
+                    //Prendo le coordinate di ogni posizione dell'array
+                    coordinates = coordinates1[i].split(" ");
+
+                    int x1 = Integer.parseInt(coordinates[0]);
+                    int y1 = Integer.parseInt(coordinates[1]);
+
+                    //Imposto le coordinate della cella successiva
+                    player.map.snakeCoords.set(i + 1, String.valueOf(x1) + " " + String.valueOf(y1));
+                    player.map.tile[x1][y1].direction = "Left";
                 }
 
-                if(i == player.map.snakeCoords.size() - 1){
-                    player.map.tile[x][y].setIcon(null);
-                }
+                //Imposto il nuovo valore della posizione della testa
+                player.map.snakeCoords.set(0, String.valueOf(x0) + " " + String.valueOf(y0 - 1));
+
+            } catch (Exception e) {
+                System.out.println(e);
+                System.exit(0);
             }
-            else if(player.map.tile[x][y].direction.equals("Top")){
-                try{
-                    player.map.tile[x][y].direction = null;
-                    player.map.tile[x - 1][y].direction = "Top";
+        }
 
-                    player.map.snakeCoords.set(i, String.valueOf(x - 1) + " " + String.valueOf(y));
-                }catch (Exception e){
-                    System.out.println(e);
+        //Spostamento del serpente in caso la testa sia rivolta in alto
+        else if (player.map.tile[x0][y0].direction.equals("Top")) {
+            try {
+                //Faccio avanzare la testa di una posizione
+                player.map.tile[x0][y0].direction = null;
+                player.map.tile[x0 - 1][y0].direction = "Top";
+
+                //Ciclo nel quale grazie all'array di prima posso far prendere a ogni casella del serpente
+                //il valore che aveva quella successiva prima di avanzare di una posizione
+                for (int i = 0; i < player.map.snakeCoords.size() - 1; i++) {
+                    //Coordinate della posizione della coda
+                    str = player.map.snakeCoords.elementAt(player.map.snakeCoords.size() - 1);
+
+                    coordinates = str.split(" ");
+                    int xMax = Integer.parseInt(coordinates[0]);
+                    int yMax = Integer.parseInt(coordinates[1]);
+
+                    //Elimino la coda
+                    player.map.tile[xMax][yMax].setIcon(null);
+
+
+                    //Prendo le coordinate di ogni posizione dell'array
+                    coordinates = coordinates1[i].split(" ");
+
+                    int x1 = Integer.parseInt(coordinates[0]);
+                    int y1 = Integer.parseInt(coordinates[1]);
+
+                    //Imposto le coordinate della cella successiva
+                    player.map.snakeCoords.set(i + 1, String.valueOf(x1) + " " + String.valueOf(y1));
+                    player.map.tile[x1][y1].direction = "Top";
                 }
 
-                if(i == player.map.snakeCoords.size() - 1){
-                    player.map.tile[x][y].setIcon(null);
-                }
+                //Imposto il nuovo valore della posizione della testa
+                player.map.snakeCoords.set(0, String.valueOf(x0 - 1) + " " + String.valueOf(y0));
+
+            } catch (Exception e) {
+                System.out.println(e);
+                System.exit(0);
             }
-            else if(player.map.tile[x][y].direction.equals("Bottom")){
-                try{
-                    player.map.tile[x][y].direction = null;
-                    player.map.tile[x + 1][y].direction = "Bottom";
+        }
 
-                    player.map.snakeCoords.set(i, String.valueOf(x + 1) + " " + String.valueOf(y));
-                }catch (Exception e){
-                    System.out.println("Partita persa 4");
-                    System.exit(0);
+        //Spostamento del serpente in caso la testa sia rivolta in basso
+        else if (player.map.tile[x0][y0].direction.equals("Bottom")) {
+            try {
+                //Faccio avanzare la testa di una posizione
+                player.map.tile[x0][y0].direction = null;
+                player.map.tile[x0 + 1][y0].direction = "Bottom";
+
+                //Ciclo nel quale grazie all'array di prima posso far prendere a ogni casella del serpente
+                //il valore che aveva quella successiva prima di avanzare di una posizione
+                for (int i = 0; i < player.map.snakeCoords.size() - 1; i++) {
+                    //Coordinate della posizione della coda
+                    str = player.map.snakeCoords.elementAt(player.map.snakeCoords.size() - 1);
+
+                    coordinates = str.split(" ");
+                    int xMax = Integer.parseInt(coordinates[0]);
+                    int yMax = Integer.parseInt(coordinates[1]);
+
+                    //Elimino la coda
+                    player.map.tile[xMax][yMax].setIcon(null);
+
+
+                    //Prendo le coordinate di ogni posizione dell'array
+                    coordinates = coordinates1[i].split(" ");
+
+                    int x1 = Integer.parseInt(coordinates[0]);
+                    int y1 = Integer.parseInt(coordinates[1]);
+
+                    //Imposto le coordinate della cella successiva
+                    player.map.snakeCoords.set(i + 1, String.valueOf(x1) + " " + String.valueOf(y1));
+                    player.map.tile[x1][y1].direction = "Bottom";
                 }
 
-                if(i == player.map.snakeCoords.size() - 1){
-                    player.map.tile[x][y].setIcon(null);
-                }
+                //Imposto il nuovo valore della posizione della testa
+                player.map.snakeCoords.set(0, String.valueOf(x0 + 1) + " " + String.valueOf(y0));
+
+            } catch (Exception e) {
+                System.out.println(e);
+                System.exit(0);
             }
         }
     }

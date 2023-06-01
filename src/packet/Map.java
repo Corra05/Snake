@@ -10,6 +10,7 @@ public class Map extends JFrame{
     final int sizes = 40;
 
     //Immagini utilizzate
+    ImageIcon gameLogo = new ImageIcon(new ImageIcon("images/GameLogo.png").getImage().getScaledInstance(220, 71, Image.SCALE_SMOOTH));
     ImageIcon apple = new ImageIcon(new ImageIcon("images/apple.png").getImage().getScaledInstance(sizes, sizes, Image.SCALE_SMOOTH));
 
     ImageIcon snakeBodyHorizontal = new ImageIcon(new ImageIcon("images/SnakeBodyHorizontal.png").getImage().getScaledInstance(sizes, sizes, Image.SCALE_SMOOTH));
@@ -39,6 +40,7 @@ public class Map extends JFrame{
 
     JPanel upperBar = new JPanel();
     JLabel timer = new JLabel();
+    JLabel logo = new JLabel();
     JPanel upperBarDx = new JPanel();
     JLabel appleIcon = new JLabel();
     JLabel score = new JLabel();
@@ -59,18 +61,21 @@ public class Map extends JFrame{
         cont.setLayout(new BoxLayout(cont, BoxLayout.Y_AXIS));
 
         //Aggiunta barra superiore
-        upperBar.setLayout(new GridLayout(1,2));
+        upperBar.setLayout(new GridLayout(1,3));
         timer.setText("00:00");
         timer.setBorder(new EmptyBorder(10,30,10,0));
+        logo.setIcon(gameLogo);
 
         upperBarDx.setLayout(new FlowLayout(FlowLayout.RIGHT));
         appleIcon.setIcon(apple);
         score.setText("0");
         score.setBorder(new EmptyBorder(10,0,10,30));
+
         upperBarDx.add(appleIcon);
         upperBarDx.add(score);
 
         upperBar.add(timer);
+        upperBar.add(logo);
         upperBar.add(upperBarDx);
 
         cont.add(upperBar);
@@ -82,7 +87,7 @@ public class Map extends JFrame{
             for (int j = 0; j < dimension; j++) {
 
                 //Aggiunta di un bordo a tutta la mappa
-                if ((i == 0 && j == 0) || (i == 0 && j != 0) || (i != 0 && j == 0) || ((i == dimension - 1) && j != 0) || (i != dimension && (j == dimension - 1))) {
+                if (i == 0 || j == 0 || i == dimension - 1 || j == dimension - 1) {
                     JLabel border = new JLabel();
                     border.setBackground(mapBorders);
                     border.setOpaque(true);
