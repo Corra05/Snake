@@ -8,6 +8,7 @@ public class Tile extends JLabel {
     int j;
 
     boolean hasApple;
+    boolean hasSnake;
     boolean isCorner;
     String cornerType;      //BottomRight, BottomLeft, TopRight, TopLeft
 

@@ -1,8 +1,12 @@
 package packet;
 
+import java.util.Random;
+
 public class Clock implements Runnable {
     int sec = 0;
     int min = 0;
+    Random rand = new Random();
+
     String str;
     String[] coordinates;
     PlayerListener player;
@@ -24,6 +28,9 @@ public class Clock implements Runnable {
                 System.out.println(x + " " + y);
             }
 
+            if(!player.map.appleSpawned){
+                SpawnApple();
+            }
             SnakeIcons();
 
             sec++;
@@ -34,7 +41,7 @@ public class Clock implements Runnable {
             }
 
             try {
-                Thread.sleep(1000);
+                Thread.sleep(400);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
@@ -56,6 +63,20 @@ public class Clock implements Runnable {
             moveSnake();
             System.out.println("Ciclo completato");
         }
+    }
+
+    private void SpawnApple() {
+        int X;
+        int Y;
+        do{
+            X = rand.nextInt(1,player.map.dimension - 1);
+            Y = rand.nextInt(1,player.map.dimension - 1);
+        }while (player.map.tile[X][Y].hasSnake);
+
+        player.map.appleSpawned = true;
+
+        player.map.tile[X][Y].hasApple = true;
+        player.map.tile[X][Y].setIcon(player.map.apple);
     }
 
     public void SnakeIcons() {
@@ -124,20 +145,24 @@ public class Clock implements Runnable {
                 player.map.tile[x0][y0].direction = null;
                 player.map.tile[x0][y0 + 1].direction = "Right";
 
+                //Coordinate della posizione della coda
+                str = player.map.snakeCoords.elementAt(player.map.snakeCoords.size() - 1);
+
+                coordinates = str.split(" ");
+                int xMax = Integer.parseInt(coordinates[0]);
+                int yMax = Integer.parseInt(coordinates[1]);
+
+                //Elimino la coda
+                player.map.tile[xMax][yMax].setIcon(null);
+
+                if(player.map.tile[x0][y0 + 1].hasApple){
+                    player.map.snakeCoords.addElement(String.valueOf(xMax) + " " + String.valueOf(yMax));
+                    player.map.appleSpawned = false;
+                }
+
                 //Ciclo nel quale grazie all'array di prima posso far prendere a ogni casella del serpente
                 //il valore che aveva quella successiva prima di avanzare di una posizione
                 for (int i = 0; i < player.map.snakeCoords.size() - 1; i++) {
-                    //Coordinate della posizione della coda
-                    str = player.map.snakeCoords.elementAt(player.map.snakeCoords.size() - 1);
-
-                    coordinates = str.split(" ");
-                    int xMax = Integer.parseInt(coordinates[0]);
-                    int yMax = Integer.parseInt(coordinates[1]);
-
-                    //Elimino la coda
-                    player.map.tile[xMax][yMax].setIcon(null);
-
-
                     //Prendo le coordinate di ogni posizione dell'array
                     coordinates = coordinates1[i].split(" ");
 
@@ -165,20 +190,24 @@ public class Clock implements Runnable {
                 player.map.tile[x0][y0].direction = null;
                 player.map.tile[x0][y0 - 1].direction = "Left";
 
+                //Coordinate della posizione della coda
+                str = player.map.snakeCoords.elementAt(player.map.snakeCoords.size() - 1);
+
+                coordinates = str.split(" ");
+                int xMax = Integer.parseInt(coordinates[0]);
+                int yMax = Integer.parseInt(coordinates[1]);
+
+                //Elimino la coda
+                player.map.tile[xMax][yMax].setIcon(null);
+
+                if(player.map.tile[x0][y0 - 1].hasApple){
+                    player.map.snakeCoords.addElement(String.valueOf(xMax) + " " + String.valueOf(yMax));
+                    player.map.appleSpawned = false;
+                }
+
                 //Ciclo nel quale grazie all'array di prima posso far prendere a ogni casella del serpente
                 //il valore che aveva quella successiva prima di avanzare di una posizione
                 for (int i = 0; i < player.map.snakeCoords.size() - 1; i++) {
-                    //Coordinate della posizione della coda
-                    str = player.map.snakeCoords.elementAt(player.map.snakeCoords.size() - 1);
-
-                    coordinates = str.split(" ");
-                    int xMax = Integer.parseInt(coordinates[0]);
-                    int yMax = Integer.parseInt(coordinates[1]);
-
-                    //Elimino la coda
-                    player.map.tile[xMax][yMax].setIcon(null);
-
-
                     //Prendo le coordinate di ogni posizione dell'array
                     coordinates = coordinates1[i].split(" ");
 
@@ -206,20 +235,24 @@ public class Clock implements Runnable {
                 player.map.tile[x0][y0].direction = null;
                 player.map.tile[x0 - 1][y0].direction = "Top";
 
+                //Coordinate della posizione della coda
+                str = player.map.snakeCoords.elementAt(player.map.snakeCoords.size() - 1);
+
+                coordinates = str.split(" ");
+                int xMax = Integer.parseInt(coordinates[0]);
+                int yMax = Integer.parseInt(coordinates[1]);
+
+                //Elimino la coda
+                player.map.tile[xMax][yMax].setIcon(null);
+
+                if(player.map.tile[x0 - 1][y0].hasApple){
+                    player.map.snakeCoords.addElement(String.valueOf(xMax) + " " + String.valueOf(yMax));
+                    player.map.appleSpawned = false;
+                }
+
                 //Ciclo nel quale grazie all'array di prima posso far prendere a ogni casella del serpente
                 //il valore che aveva quella successiva prima di avanzare di una posizione
                 for (int i = 0; i < player.map.snakeCoords.size() - 1; i++) {
-                    //Coordinate della posizione della coda
-                    str = player.map.snakeCoords.elementAt(player.map.snakeCoords.size() - 1);
-
-                    coordinates = str.split(" ");
-                    int xMax = Integer.parseInt(coordinates[0]);
-                    int yMax = Integer.parseInt(coordinates[1]);
-
-                    //Elimino la coda
-                    player.map.tile[xMax][yMax].setIcon(null);
-
-
                     //Prendo le coordinate di ogni posizione dell'array
                     coordinates = coordinates1[i].split(" ");
 
@@ -247,20 +280,24 @@ public class Clock implements Runnable {
                 player.map.tile[x0][y0].direction = null;
                 player.map.tile[x0 + 1][y0].direction = "Bottom";
 
+                //Coordinate della posizione della coda
+                str = player.map.snakeCoords.elementAt(player.map.snakeCoords.size() - 1);
+
+                coordinates = str.split(" ");
+                int xMax = Integer.parseInt(coordinates[0]);
+                int yMax = Integer.parseInt(coordinates[1]);
+
+                //Elimino la coda
+                player.map.tile[xMax][yMax].setIcon(null);
+
+                if(player.map.tile[x0 + 1][y0].hasApple){
+                    player.map.snakeCoords.addElement(String.valueOf(xMax) + " " + String.valueOf(yMax));
+                    player.map.appleSpawned = false;
+                }
+
                 //Ciclo nel quale grazie all'array di prima posso far prendere a ogni casella del serpente
                 //il valore che aveva quella successiva prima di avanzare di una posizione
                 for (int i = 0; i < player.map.snakeCoords.size() - 1; i++) {
-                    //Coordinate della posizione della coda
-                    str = player.map.snakeCoords.elementAt(player.map.snakeCoords.size() - 1);
-
-                    coordinates = str.split(" ");
-                    int xMax = Integer.parseInt(coordinates[0]);
-                    int yMax = Integer.parseInt(coordinates[1]);
-
-                    //Elimino la coda
-                    player.map.tile[xMax][yMax].setIcon(null);
-
-
                     //Prendo le coordinate di ogni posizione dell'array
                     coordinates = coordinates1[i].split(" ");
 

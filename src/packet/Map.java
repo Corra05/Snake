@@ -9,6 +9,8 @@ public class Map extends JFrame{
     final int dimension = 18;
     final int sizes = 40;
 
+    boolean appleSpawned = false;
+
     //Immagini utilizzate
     ImageIcon gameLogo = new ImageIcon(new ImageIcon("images/GameLogo.png").getImage().getScaledInstance(220, 71, Image.SCALE_SMOOTH));
     ImageIcon apple = new ImageIcon(new ImageIcon("images/apple.png").getImage().getScaledInstance(sizes, sizes, Image.SCALE_SMOOTH));
