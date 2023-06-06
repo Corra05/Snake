@@ -50,47 +50,23 @@ public class Clock extends JFrame implements Runnable {
     }
 
     public void SnakeIcons() {
-        for (int i = 0; i < player.map.snakeCoords.size(); i++) {
-            str = player.map.snakeCoords.elementAt(i);
+        str = player.map.snakeCoords.elementAt(0);
 
-            String[] coordinates = str.split(" ");
-            int x = Integer.parseInt(coordinates[0]);
-            int y = Integer.parseInt(coordinates[1]);
+        String[] coordinates = str.split(" ");
+        int x = Integer.parseInt(coordinates[0]);
+        int y = Integer.parseInt(coordinates[1]);
 
-            if (player.map.tile[x][y].direction.equals("Right")) {
-                if (i == 0) {
-                    player.map.tile[x][y].setIcon(player.map.snakeHeadRight);
-                } else if (i == player.map.snakeCoords.size() - 1) {
-                    player.map.tile[x][y].setIcon(player.map.snakeTailRight);
-                } else {
-                    player.map.tile[x][y].setIcon(player.map.snakeBodyHorizontal);
-                }
-            } else if (player.map.tile[x][y].direction.equals("Left")) {
-                if (i == 0) {
-                    player.map.tile[x][y].setIcon(player.map.snakeHeadLeft);
-                } else if (i == player.map.snakeCoords.size() - 1) {
-                    player.map.tile[x][y].setIcon(player.map.snakeTailLeft);
-                } else {
-                    player.map.tile[x][y].setIcon(player.map.snakeBodyHorizontal);
-                }
-            } else if (player.map.tile[x][y].direction.equals("Top")) {
-                if (i == 0) {
-                    player.map.tile[x][y].setIcon(player.map.snakeHeadTop);
-                } else if (i == player.map.snakeCoords.size() - 1) {
-                    player.map.tile[x][y].setIcon(player.map.snakeTailTop);
-                } else {
-                    player.map.tile[x][y].setIcon(player.map.snakeBodyVertical);
-                }
-            } else if (player.map.tile[x][y].direction.equals("Bottom")) {
-                if (i == 0) {
-                    player.map.tile[x][y].setIcon(player.map.snakeHeadBottom);
-                } else if (i == player.map.snakeCoords.size() - 1) {
-                    player.map.tile[x][y].setIcon(player.map.snakeTailBottom);
-                } else {
-                    player.map.tile[x][y].setIcon(player.map.snakeBodyVertical);
-                }
-            }
-
+        if (player.map.tile[x][y].direction.equals("Right")) {
+            player.map.tile[x][y].setIcon(player.map.snakeHeadRight);
+        }
+        else if (player.map.tile[x][y].direction.equals("Left")) {
+            player.map.tile[x][y].setIcon(player.map.snakeHeadLeft);
+        }
+        else if (player.map.tile[x][y].direction.equals("Top")) {
+            player.map.tile[x][y].setIcon(player.map.snakeHeadTop);
+        }
+        else if (player.map.tile[x][y].direction.equals("Bottom")) {
+            player.map.tile[x][y].setIcon(player.map.snakeHeadBottom);
         }
     }
 
@@ -125,14 +101,13 @@ public class Clock extends JFrame implements Runnable {
                 //Elimino la coda
                 player.map.tile[xMax][yMax].setIcon(null);
 
-                if(player.map.tile[x0][y0 + 1].hasApple){
+                if (player.map.tile[x0][y0 + 1].hasApple) {
                     player.map.snakeCoords.addElement(String.valueOf(xMax) + " " + String.valueOf(yMax));
                     player.map.appleSpawned = false;
                     player.map.tile[x0][y0 + 1].hasApple = false;
                     player.map.score.setText(String.valueOf(player.map.snakeCoords.size() - 3));
-                }
-                else if(player.map.tile[x0][y0 + 1].hasSnake){
-                    JOptionPane.showMessageDialog(this, "Hai perso L", "Game Over",JOptionPane.ERROR_MESSAGE);
+                } else if (player.map.tile[x0][y0 + 1].hasSnake) {
+                    JOptionPane.showMessageDialog(this, "Hai perso L", "Game Over", JOptionPane.ERROR_MESSAGE);
 
                     try {
                         Thread.sleep(2000);
@@ -154,14 +129,14 @@ public class Clock extends JFrame implements Runnable {
 
                     //Imposto le coordinate della cella successiva
                     player.map.snakeCoords.set(i + 1, String.valueOf(x1) + " " + String.valueOf(y1));
-                    player.map.tile[x1][y1].direction = "Right";
+                    //player.map.tile[x1][y1].direction = "Right";
                 }
 
                 //Imposto il nuovo valore della posizione della testa
                 player.map.snakeCoords.set(0, String.valueOf(x0) + " " + String.valueOf(y0 + 1));
 
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Hai perso L", "Game Over",JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Hai perso L", "Game Over", JOptionPane.ERROR_MESSAGE);
 
                 try {
                     Thread.sleep(2000);
@@ -190,14 +165,13 @@ public class Clock extends JFrame implements Runnable {
                 //Elimino la coda
                 player.map.tile[xMax][yMax].setIcon(null);
 
-                if(player.map.tile[x0][y0 - 1].hasApple){
+                if (player.map.tile[x0][y0 - 1].hasApple) {
                     player.map.snakeCoords.addElement(String.valueOf(xMax) + " " + String.valueOf(yMax));
                     player.map.appleSpawned = false;
                     player.map.tile[x0][y0 - 1].hasApple = false;
                     player.map.score.setText(String.valueOf(player.map.snakeCoords.size() - 3));
-                }
-                else if(player.map.tile[x0][y0 - 1].hasSnake){
-                    JOptionPane.showMessageDialog(this, "Hai perso L", "Game Over",JOptionPane.ERROR_MESSAGE);
+                } else if (player.map.tile[x0][y0 - 1].hasSnake) {
+                    JOptionPane.showMessageDialog(this, "Hai perso L", "Game Over", JOptionPane.ERROR_MESSAGE);
 
                     try {
                         Thread.sleep(2000);
@@ -219,14 +193,14 @@ public class Clock extends JFrame implements Runnable {
 
                     //Imposto le coordinate della cella successiva
                     player.map.snakeCoords.set(i + 1, String.valueOf(x1) + " " + String.valueOf(y1));
-                    player.map.tile[x1][y1].direction = "Left";
+                    //player.map.tile[x1][y1].direction = "Left";
                 }
 
                 //Imposto il nuovo valore della posizione della testa
                 player.map.snakeCoords.set(0, String.valueOf(x0) + " " + String.valueOf(y0 - 1));
 
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Hai perso L", "Game Over",JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Hai perso L", "Game Over", JOptionPane.ERROR_MESSAGE);
 
                 try {
                     Thread.sleep(2000);
@@ -255,14 +229,13 @@ public class Clock extends JFrame implements Runnable {
                 //Elimino la coda
                 player.map.tile[xMax][yMax].setIcon(null);
 
-                if(player.map.tile[x0 - 1][y0].hasApple){
+                if (player.map.tile[x0 - 1][y0].hasApple) {
                     player.map.snakeCoords.addElement(String.valueOf(xMax) + " " + String.valueOf(yMax));
                     player.map.appleSpawned = false;
                     player.map.tile[x0 - 1][y0].hasApple = false;
                     player.map.score.setText(String.valueOf(player.map.snakeCoords.size() - 3));
-                }
-                else if(player.map.tile[x0 - 1][y0].hasSnake){
-                    JOptionPane.showMessageDialog(this, "Hai perso L", "Game Over",JOptionPane.ERROR_MESSAGE);
+                } else if (player.map.tile[x0 - 1][y0].hasSnake) {
+                    JOptionPane.showMessageDialog(this, "Hai perso L", "Game Over", JOptionPane.ERROR_MESSAGE);
 
                     try {
                         Thread.sleep(2000);
@@ -284,14 +257,14 @@ public class Clock extends JFrame implements Runnable {
 
                     //Imposto le coordinate della cella successiva
                     player.map.snakeCoords.set(i + 1, String.valueOf(x1) + " " + String.valueOf(y1));
-                    player.map.tile[x1][y1].direction = "Top";
+                    //player.map.tile[x1][y1].direction = "Top";
                 }
 
                 //Imposto il nuovo valore della posizione della testa
                 player.map.snakeCoords.set(0, String.valueOf(x0 - 1) + " " + String.valueOf(y0));
 
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Hai perso L", "Game Over",JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Hai perso L", "Game Over", JOptionPane.ERROR_MESSAGE);
 
                 try {
                     Thread.sleep(2000);
@@ -320,14 +293,13 @@ public class Clock extends JFrame implements Runnable {
                 //Elimino la coda
                 player.map.tile[xMax][yMax].setIcon(null);
 
-                if(player.map.tile[x0 + 1][y0].hasApple){
+                if (player.map.tile[x0 + 1][y0].hasApple) {
                     player.map.snakeCoords.addElement(String.valueOf(xMax) + " " + String.valueOf(yMax));
                     player.map.appleSpawned = false;
                     player.map.tile[x0 + 1][y0].hasApple = false;
                     player.map.score.setText(String.valueOf(player.map.snakeCoords.size() - 3));
-                }
-                else if(player.map.tile[x0 + 1][y0].hasSnake){
-                    JOptionPane.showMessageDialog(this, "Hai perso L", "Game Over",JOptionPane.ERROR_MESSAGE);
+                } else if (player.map.tile[x0 + 1][y0].hasSnake) {
+                    JOptionPane.showMessageDialog(this, "Hai perso L", "Game Over", JOptionPane.ERROR_MESSAGE);
 
                     try {
                         Thread.sleep(2000);
@@ -349,14 +321,14 @@ public class Clock extends JFrame implements Runnable {
 
                     //Imposto le coordinate della cella successiva
                     player.map.snakeCoords.set(i + 1, String.valueOf(x1) + " " + String.valueOf(y1));
-                    player.map.tile[x1][y1].direction = "Bottom";
+                    //player.map.tile[x1][y1].direction = "Bottom";
                 }
 
                 //Imposto il nuovo valore della posizione della testa
                 player.map.snakeCoords.set(0, String.valueOf(x0 + 1) + " " + String.valueOf(y0));
 
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Hai perso L", "Game Over",JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Hai perso L", "Game Over", JOptionPane.ERROR_MESSAGE);
 
                 try {
                     Thread.sleep(2000);
