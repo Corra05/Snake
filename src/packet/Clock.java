@@ -1,10 +1,11 @@
 package packet;
 
+import javax.swing.*;
+import java.awt.*;
 import java.util.Random;
 
-public class Clock implements Runnable {
-    int sec = 0;
-    int min = 0;
+public class Clock extends JFrame implements Runnable {
+    boolean loop = false;
     Random rand = new Random();
 
     String str;
@@ -13,11 +14,21 @@ public class Clock implements Runnable {
 
     public Clock(PlayerListener player) {
         this.player = player;
+        Thread timer = new Thread(new Timer(this));
+        timer.start();
     }
 
     @Override
     public void run() {
         while (true) {
+            SnakeIcons();
+
+            for (int i = 1; i < player.map.dimension - 1; i++) {
+                for (int j = 1; j < player.map.dimension - 1; j++) {
+                    player.map.tile[i][j].hasSnake = false;
+                }
+            }
+
             for (int i = 0; i < player.map.snakeCoords.size(); i++) {
                 str = player.map.snakeCoords.elementAt(i);
 
@@ -25,58 +36,17 @@ public class Clock implements Runnable {
                 int x = Integer.parseInt(coordinates[0]);
                 int y = Integer.parseInt(coordinates[1]);
 
-                System.out.println(x + " " + y);
-            }
-
-            if(!player.map.appleSpawned){
-                SpawnApple();
-            }
-            SnakeIcons();
-
-            sec++;
-
-            if (!(sec < 60)) {
-                sec = 0;
-                min++;
+                player.map.tile[x][y].hasSnake = true;
             }
 
             try {
-                Thread.sleep(400);
+                Thread.sleep(200);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
 
-            if (sec < 10) {
-                if (min < 10) {
-                    player.map.timer.setText("0" + min + ":0" + sec);
-                } else {
-                    player.map.timer.setText(min + ":0" + sec);
-                }
-            } else {
-                if (min < 10) {
-                    player.map.timer.setText("0" + min + ":" + sec);
-                } else {
-                    player.map.timer.setText(min + ":" + sec);
-                }
-            }
-
             moveSnake();
-            System.out.println("Ciclo completato");
         }
-    }
-
-    private void SpawnApple() {
-        int X;
-        int Y;
-        do{
-            X = rand.nextInt(1,player.map.dimension - 1);
-            Y = rand.nextInt(1,player.map.dimension - 1);
-        }while (player.map.tile[X][Y].hasSnake);
-
-        player.map.appleSpawned = true;
-
-        player.map.tile[X][Y].hasApple = true;
-        player.map.tile[X][Y].setIcon(player.map.apple);
     }
 
     public void SnakeIcons() {
@@ -158,6 +128,19 @@ public class Clock implements Runnable {
                 if(player.map.tile[x0][y0 + 1].hasApple){
                     player.map.snakeCoords.addElement(String.valueOf(xMax) + " " + String.valueOf(yMax));
                     player.map.appleSpawned = false;
+                    player.map.apples += 1;
+                    player.map.score.setText(String.valueOf(player.map.apples));
+                }
+                else if(player.map.tile[x0][y0 + 1].hasSnake){
+                    JOptionPane.showMessageDialog(this, "Hai perso L", "Game Over",JOptionPane.ERROR_MESSAGE);
+
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e1) {
+                        throw new RuntimeException(e1);
+                    }
+
+                    System.exit(0);
                 }
 
                 //Ciclo nel quale grazie all'array di prima posso far prendere a ogni casella del serpente
@@ -178,7 +161,14 @@ public class Clock implements Runnable {
                 player.map.snakeCoords.set(0, String.valueOf(x0) + " " + String.valueOf(y0 + 1));
 
             } catch (Exception e) {
-                System.out.println(e);
+                JOptionPane.showMessageDialog(this, "Hai perso L", "Game Over",JOptionPane.ERROR_MESSAGE);
+
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e1) {
+                    throw new RuntimeException(e1);
+                }
+
                 System.exit(0);
             }
         }
@@ -203,6 +193,19 @@ public class Clock implements Runnable {
                 if(player.map.tile[x0][y0 - 1].hasApple){
                     player.map.snakeCoords.addElement(String.valueOf(xMax) + " " + String.valueOf(yMax));
                     player.map.appleSpawned = false;
+                    player.map.apples += 1;
+                    player.map.score.setText(String.valueOf(player.map.apples));
+                }
+                else if(player.map.tile[x0][y0 - 1].hasSnake){
+                    JOptionPane.showMessageDialog(this, "Hai perso L", "Game Over",JOptionPane.ERROR_MESSAGE);
+
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e1) {
+                        throw new RuntimeException(e1);
+                    }
+
+                    System.exit(0);
                 }
 
                 //Ciclo nel quale grazie all'array di prima posso far prendere a ogni casella del serpente
@@ -223,7 +226,14 @@ public class Clock implements Runnable {
                 player.map.snakeCoords.set(0, String.valueOf(x0) + " " + String.valueOf(y0 - 1));
 
             } catch (Exception e) {
-                System.out.println(e);
+                JOptionPane.showMessageDialog(this, "Hai perso L", "Game Over",JOptionPane.ERROR_MESSAGE);
+
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e1) {
+                    throw new RuntimeException(e1);
+                }
+
                 System.exit(0);
             }
         }
@@ -248,6 +258,19 @@ public class Clock implements Runnable {
                 if(player.map.tile[x0 - 1][y0].hasApple){
                     player.map.snakeCoords.addElement(String.valueOf(xMax) + " " + String.valueOf(yMax));
                     player.map.appleSpawned = false;
+                    player.map.apples += 1;
+                    player.map.score.setText(String.valueOf(player.map.apples));
+                }
+                else if(player.map.tile[x0 - 1][y0].hasSnake){
+                    JOptionPane.showMessageDialog(this, "Hai perso L", "Game Over",JOptionPane.ERROR_MESSAGE);
+
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e1) {
+                        throw new RuntimeException(e1);
+                    }
+
+                    System.exit(0);
                 }
 
                 //Ciclo nel quale grazie all'array di prima posso far prendere a ogni casella del serpente
@@ -268,7 +291,14 @@ public class Clock implements Runnable {
                 player.map.snakeCoords.set(0, String.valueOf(x0 - 1) + " " + String.valueOf(y0));
 
             } catch (Exception e) {
-                System.out.println(e);
+                JOptionPane.showMessageDialog(this, "Hai perso L", "Game Over",JOptionPane.ERROR_MESSAGE);
+
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e1) {
+                    throw new RuntimeException(e1);
+                }
+
                 System.exit(0);
             }
         }
@@ -293,6 +323,19 @@ public class Clock implements Runnable {
                 if(player.map.tile[x0 + 1][y0].hasApple){
                     player.map.snakeCoords.addElement(String.valueOf(xMax) + " " + String.valueOf(yMax));
                     player.map.appleSpawned = false;
+                    player.map.apples += 1;
+                    player.map.score.setText(String.valueOf(player.map.apples));
+                }
+                else if(player.map.tile[x0 + 1][y0].hasSnake){
+                    JOptionPane.showMessageDialog(this, "Hai perso L", "Game Over",JOptionPane.ERROR_MESSAGE);
+
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e1) {
+                        throw new RuntimeException(e1);
+                    }
+
+                    System.exit(0);
                 }
 
                 //Ciclo nel quale grazie all'array di prima posso far prendere a ogni casella del serpente
@@ -313,7 +356,14 @@ public class Clock implements Runnable {
                 player.map.snakeCoords.set(0, String.valueOf(x0 + 1) + " " + String.valueOf(y0));
 
             } catch (Exception e) {
-                System.out.println(e);
+                JOptionPane.showMessageDialog(this, "Hai perso L", "Game Over",JOptionPane.ERROR_MESSAGE);
+
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e1) {
+                    throw new RuntimeException(e1);
+                }
+
                 System.exit(0);
             }
         }

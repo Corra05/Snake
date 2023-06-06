@@ -8,6 +8,7 @@ import java.util.Vector;
 public class Map extends JFrame{
     final int dimension = 18;
     final int sizes = 40;
+    int apples = 0;
 
     boolean appleSpawned = false;
 
@@ -97,7 +98,7 @@ public class Map extends JFrame{
                 }
                 //Aggiunta delle caselle della mappa
                 else {
-                    tile[i][j] = new Tile(i, j);      //Popolamento matrice
+                    tile[i][j] = new Tile();      //Popolamento matrice
                     tile[i][j].setPreferredSize(new Dimension(sizes,sizes));
                     tile[i][j].setOpaque(true);
 
@@ -140,10 +141,6 @@ public class Map extends JFrame{
         tile[8][4].direction = "Right";
         tile[8][3].direction = "Right";
         tile[8][2].direction = "Right";
-
-        tile[8][4].prevDirection = "Right";
-        tile[8][3].prevDirection = "Right";
-        tile[8][2].prevDirection = "Right";
 
         snakeCoords.addElement("8 4");
         snakeCoords.addElement("8 3");
