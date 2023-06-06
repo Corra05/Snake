@@ -1,8 +1,11 @@
 package packet;
 
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.io.File;
 import java.util.Vector;
 
 public class Map extends JFrame{
@@ -133,6 +136,16 @@ public class Map extends JFrame{
         this.setResizable(false);
         this.setVisible(true);
         this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+
+        //Effetto audio apertura
+        try {
+            File file = new File("gameStart.wav"); // Inserire il percorso del file audio clic
+            Clip clip = AudioSystem.getClip();
+            clip.open(AudioSystem.getAudioInputStream(file));
+            clip.start();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     public void initialSetup(){

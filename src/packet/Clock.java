@@ -1,7 +1,10 @@
 package packet;
 
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 import java.util.Random;
 
 public class Clock extends JFrame implements Runnable {
@@ -68,6 +71,7 @@ public class Clock extends JFrame implements Runnable {
         else if (player.map.tile[x][y].direction.equals("Bottom")) {
             player.map.tile[x][y].setIcon(player.map.snakeHeadBottom);
         }
+
     }
 
     public void moveSnake() {
@@ -106,6 +110,17 @@ public class Clock extends JFrame implements Runnable {
                     player.map.appleSpawned = false;
                     player.map.tile[x0][y0 + 1].hasApple = false;
                     player.map.score.setText(String.valueOf(player.map.snakeCoords.size() - 3));
+
+                    //Effetto audio mela mangiata
+                    try {
+                        File file = new File("appleEaten.wav"); // Inserire il percorso del file audio clic
+                        Clip clip = AudioSystem.getClip();
+                        clip.open(AudioSystem.getAudioInputStream(file));
+                        clip.start();
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+
                 } else if (player.map.tile[x0][y0 + 1].hasSnake) {
                     JOptionPane.showMessageDialog(this, "Hai perso L", "Game Over", JOptionPane.ERROR_MESSAGE);
 
@@ -170,6 +185,17 @@ public class Clock extends JFrame implements Runnable {
                     player.map.appleSpawned = false;
                     player.map.tile[x0][y0 - 1].hasApple = false;
                     player.map.score.setText(String.valueOf(player.map.snakeCoords.size() - 3));
+
+                    //Effetto audio mela mangiata
+                    try {
+                        File file = new File("appleEaten.wav"); // Inserire il percorso del file audio clic
+                        Clip clip = AudioSystem.getClip();
+                        clip.open(AudioSystem.getAudioInputStream(file));
+                        clip.start();
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+
                 } else if (player.map.tile[x0][y0 - 1].hasSnake) {
                     JOptionPane.showMessageDialog(this, "Hai perso L", "Game Over", JOptionPane.ERROR_MESSAGE);
 
@@ -234,6 +260,17 @@ public class Clock extends JFrame implements Runnable {
                     player.map.appleSpawned = false;
                     player.map.tile[x0 - 1][y0].hasApple = false;
                     player.map.score.setText(String.valueOf(player.map.snakeCoords.size() - 3));
+
+                    //Effetto audio mela mangiata
+                    try {
+                        File file = new File("appleEaten.wav"); // Inserire il percorso del file audio clic
+                        Clip clip = AudioSystem.getClip();
+                        clip.open(AudioSystem.getAudioInputStream(file));
+                        clip.start();
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+
                 } else if (player.map.tile[x0 - 1][y0].hasSnake) {
                     JOptionPane.showMessageDialog(this, "Hai perso L", "Game Over", JOptionPane.ERROR_MESSAGE);
 
@@ -298,6 +335,17 @@ public class Clock extends JFrame implements Runnable {
                     player.map.appleSpawned = false;
                     player.map.tile[x0 + 1][y0].hasApple = false;
                     player.map.score.setText(String.valueOf(player.map.snakeCoords.size() - 3));
+
+                    //Effetto audio mela mangiata
+                    try {
+                        File file = new File("appleEaten.wav"); // Inserire il percorso del file audio clic
+                        Clip clip = AudioSystem.getClip();
+                        clip.open(AudioSystem.getAudioInputStream(file));
+                        clip.start();
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+
                 } else if (player.map.tile[x0 + 1][y0].hasSnake) {
                     JOptionPane.showMessageDialog(this, "Hai perso L", "Game Over", JOptionPane.ERROR_MESSAGE);
 

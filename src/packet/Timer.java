@@ -1,5 +1,9 @@
 package packet;
 
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import java.io.File;
+
 public class Timer implements Runnable {
     int var;
     int sec = 0;
@@ -12,6 +16,16 @@ public class Timer implements Runnable {
     @Override
     public void run() {
         while(true){
+            //Effetto audio movimento
+            try {
+                File file = new File("movingSound.wav"); // Inserire il percorso del file audio clic
+                Clip clip = AudioSystem.getClip();
+                clip.open(AudioSystem.getAudioInputStream(file));
+                clip.start();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+
             sec++;
 
             if (!(sec < 60)) {
