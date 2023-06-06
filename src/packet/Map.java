@@ -8,7 +8,7 @@ import java.awt.*;
 import java.io.File;
 import java.util.Vector;
 
-public class Map extends JFrame{
+public class Map extends JFrame {
     final int dimension = 18;
     final int sizes = 40;
     boolean appleSpawned = false;
@@ -35,7 +35,7 @@ public class Map extends JFrame{
     ImageIcon snakeCornerBottomRight = new ImageIcon(new ImageIcon("images/Corner/SnakeCornerBottomRight.png").getImage().getScaledInstance(sizes, sizes, Image.SCALE_SMOOTH));
     ImageIcon snakeCornerTopLeft = new ImageIcon(new ImageIcon("images/Corner/SnakeCornerTopLeft.png").getImage().getScaledInstance(sizes, sizes, Image.SCALE_SMOOTH));
     ImageIcon snakeCornerTopRight = new ImageIcon(new ImageIcon("images/Corner/SnakeCornerTopRight.png").getImage().getScaledInstance(sizes, sizes, Image.SCALE_SMOOTH));
-    
+
     //Vettore contenente le coordinate del serpente
     Vector<String> snakeCoords = new Vector<String>();
 
@@ -59,21 +59,21 @@ public class Map extends JFrame{
 
     PlayerListener keyboard;
 
-    public Map(){
+    public Map() {
         setTitle("GameMap");
 
         cont.setLayout(new BoxLayout(cont, BoxLayout.Y_AXIS));
 
         //Aggiunta barra superiore
-        upperBar.setLayout(new GridLayout(1,3));
+        upperBar.setLayout(new GridLayout(1, 3));
         timer.setText("00:00");
-        timer.setBorder(new EmptyBorder(10,30,10,0));
+        timer.setBorder(new EmptyBorder(10, 30, 10, 0));
         logo.setIcon(gameLogo);
 
         upperBarDx.setLayout(new FlowLayout(FlowLayout.RIGHT));
         appleIcon.setIcon(apple);
         score.setText("0");
-        score.setBorder(new EmptyBorder(10,0,10,30));
+        score.setBorder(new EmptyBorder(10, 0, 10, 30));
 
         upperBarDx.add(appleIcon);
         upperBarDx.add(score);
@@ -84,7 +84,7 @@ public class Map extends JFrame{
 
         cont.add(upperBar);
 
-        grid.setLayout(new GridLayout(dimension,dimension));
+        grid.setLayout(new GridLayout(dimension, dimension));
 
         //Creazione della griglia, da inserire in un panel
         for (int i = 0; i < dimension; i++) {
@@ -100,20 +100,20 @@ public class Map extends JFrame{
                 //Aggiunta delle caselle della mappa
                 else {
                     tile[i][j] = new Tile();      //Popolamento matrice
-                    tile[i][j].setPreferredSize(new Dimension(sizes,sizes));
+                    tile[i][j].setPreferredSize(new Dimension(sizes, sizes));
                     tile[i][j].setOpaque(true);
 
                     //Aggiunta di un colore alle caselle
-                    if(j%2 == 0){
-                        if(i%2 == 0){
+                    if (j % 2 == 0) {
+                        if (i % 2 == 0) {
                             tile[i][j].setBackground(lightGreen);
-                        }else{
+                        } else {
                             tile[i][j].setBackground(darkGreen);
                         }
-                    }else{
-                        if(i%2 == 0){
+                    } else {
+                        if (i % 2 == 0) {
                             tile[i][j].setBackground(darkGreen);
-                        }else{
+                        } else {
                             tile[i][j].setBackground(lightGreen);
                         }
                     }
@@ -148,7 +148,7 @@ public class Map extends JFrame{
         }
     }
 
-    public void initialSetup(){
+    public void initialSetup() {
         tile[8][4].direction = "Right";
         tile[8][3].direction = "Right";
         tile[8][2].direction = "Right";

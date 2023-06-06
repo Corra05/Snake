@@ -9,6 +9,7 @@ import java.util.Random;
 
 public class Clock extends JFrame implements Runnable {
     boolean loop = false;
+    boolean gameOver = false;
     Random rand = new Random();
 
     String str;
@@ -53,28 +54,115 @@ public class Clock extends JFrame implements Runnable {
     }
 
     public void SnakeIcons() {
+        String[] coordinates;
+
+        int x;
+        int y;
+
+        //Icona testa
         str = player.map.snakeCoords.elementAt(0);
 
-        String[] coordinates = str.split(" ");
-        int x = Integer.parseInt(coordinates[0]);
-        int y = Integer.parseInt(coordinates[1]);
+        coordinates = str.split(" ");
+        x = Integer.parseInt(coordinates[0]);
+        y = Integer.parseInt(coordinates[1]);
 
         if (player.map.tile[x][y].direction.equals("Right")) {
             player.map.tile[x][y].setIcon(player.map.snakeHeadRight);
-        }
-        else if (player.map.tile[x][y].direction.equals("Left")) {
+        } else if (player.map.tile[x][y].direction.equals("Left")) {
             player.map.tile[x][y].setIcon(player.map.snakeHeadLeft);
-        }
-        else if (player.map.tile[x][y].direction.equals("Top")) {
+        } else if (player.map.tile[x][y].direction.equals("Top")) {
             player.map.tile[x][y].setIcon(player.map.snakeHeadTop);
-        }
-        else if (player.map.tile[x][y].direction.equals("Bottom")) {
+        } else if (player.map.tile[x][y].direction.equals("Bottom")) {
             player.map.tile[x][y].setIcon(player.map.snakeHeadBottom);
         }
 
+        //Icona coda
+        str = player.map.snakeCoords.elementAt(player.map.snakeCoords.size() - 1);
+
+        coordinates = str.split(" ");
+        x = Integer.parseInt(coordinates[0]);
+        y = Integer.parseInt(coordinates[1]);
+
+        if (player.map.tile[x][y].direction.equals("Right")) {
+            player.map.tile[x][y].setIcon(player.map.snakeTailRight);
+        } else if (player.map.tile[x][y].direction.equals("Left")) {
+            player.map.tile[x][y].setIcon(player.map.snakeTailLeft);
+        } else if (player.map.tile[x][y].direction.equals("Top")) {
+            player.map.tile[x][y].setIcon(player.map.snakeTailTop);
+        } else if (player.map.tile[x][y].direction.equals("Bottom")) {
+            player.map.tile[x][y].setIcon(player.map.snakeTailBottom);
+        }
+
+        //Icone resto del body
+        for (int i = 1; i < player.map.snakeCoords.size() - 1; i++) {
+            str = player.map.snakeCoords.elementAt(i);
+
+            coordinates = str.split(" ");
+            x = Integer.parseInt(coordinates[0]);
+            y = Integer.parseInt(coordinates[1]);
+
+            if (player.map.tile[x][y].direction.equals("Right") || player.map.tile[x][y].direction.equals("Left")) {
+                player.map.tile[x][y].setIcon(player.map.snakeBodyHorizontal);
+            } else if (player.map.tile[x][y].direction.equals("Top") || player.map.tile[x][y].direction.equals("Bottom")) {
+                player.map.tile[x][y].setIcon(player.map.snakeBodyVertical);
+            }
+        }
+
+        //Icone degli angoli
+        for (int i = 1; i < player.map.snakeCoords.size() - 1; i++) {
+            str = player.map.snakeCoords.elementAt(i);
+
+            coordinates = str.split(" ");
+            x = Integer.parseInt(coordinates[0]);
+            y = Integer.parseInt(coordinates[1]);
+
+            str = player.map.snakeCoords.elementAt(i - 1);
+
+            coordinates = str.split(" ");
+            int xPrevious = Integer.parseInt(coordinates[0]);
+            int yPrevious = Integer.parseInt(coordinates[1]);
+
+            str = player.map.snakeCoords.elementAt(i + 1);
+
+            coordinates = str.split(" ");
+            int xAfter = Integer.parseInt(coordinates[0]);
+            int yAfter = Integer.parseInt(coordinates[1]);
+
+            if (player.map.tile[xPrevious][yPrevious].direction.equals("Top") && player.map.tile[xAfter][yAfter].direction.equals("Right") || player.map.tile[xPrevious][yPrevious].direction.equals("Left") && player.map.tile[xAfter][yAfter].direction.equals("Bottom")) {
+                player.map.tile[x][y].setIcon(player.map.snakeCornerBottomRight);
+            } else if (player.map.tile[xPrevious][yPrevious].direction.equals("Top") && player.map.tile[xAfter][yAfter].direction.equals("Left") || player.map.tile[xPrevious][yPrevious].direction.equals("Right") && player.map.tile[xAfter][yAfter].direction.equals("Bottom")) {
+                player.map.tile[x][y].setIcon(player.map.snakeCornerBottomLeft);
+            } else if (player.map.tile[xPrevious][yPrevious].direction.equals("Bottom") && player.map.tile[xAfter][yAfter].direction.equals("Right") || player.map.tile[xPrevious][yPrevious].direction.equals("Left") && player.map.tile[xAfter][yAfter].direction.equals("Top")) {
+                player.map.tile[x][y].setIcon(player.map.snakeCornerTopRight);
+            } else if (player.map.tile[xPrevious][yPrevious].direction.equals("Bottom") && player.map.tile[xAfter][yAfter].direction.equals("Left") || player.map.tile[xPrevious][yPrevious].direction.equals("Right") && player.map.tile[xAfter][yAfter].direction.equals("Top")) {
+                player.map.tile[x][y].setIcon(player.map.snakeCornerTopLeft);
+            }
+        }
     }
 
     public void moveSnake() {
+        String[] directions = new String[player.map.snakeCoords.size()];
+
+
+        for (int i = 0; i < player.map.snakeCoords.size(); i++) {
+            //Coordinate della testa del serpente
+            str = player.map.snakeCoords.elementAt(i);
+
+            coordinates = str.split(" ");
+            int x = Integer.parseInt(coordinates[0]);
+            int y = Integer.parseInt(coordinates[1]);
+
+            directions[i] = player.map.tile[x][y].direction;
+        }
+
+        /*
+        for (int i = 0; i < player.map.snakeCoords.size(); i++) {
+            System.out.println(directions[i]);
+        }
+
+        System.out.println("---------------------");
+        */
+
         //Coordinate della testa del serpente
         str = player.map.snakeCoords.elementAt(0);
 
@@ -144,13 +232,14 @@ public class Clock extends JFrame implements Runnable {
 
                     //Imposto le coordinate della cella successiva
                     player.map.snakeCoords.set(i + 1, String.valueOf(x1) + " " + String.valueOf(y1));
-                    //player.map.tile[x1][y1].direction = "Right";
+                    player.map.tile[x1][y1].direction = directions[i];
                 }
 
                 //Imposto il nuovo valore della posizione della testa
                 player.map.snakeCoords.set(0, String.valueOf(x0) + " " + String.valueOf(y0 + 1));
 
             } catch (Exception e) {
+                gameOver = true;
                 JOptionPane.showMessageDialog(this, "Hai perso L", "Game Over", JOptionPane.ERROR_MESSAGE);
 
                 try {
@@ -219,13 +308,14 @@ public class Clock extends JFrame implements Runnable {
 
                     //Imposto le coordinate della cella successiva
                     player.map.snakeCoords.set(i + 1, String.valueOf(x1) + " " + String.valueOf(y1));
-                    //player.map.tile[x1][y1].direction = "Left";
+                    player.map.tile[x1][y1].direction = directions[i];
                 }
 
                 //Imposto il nuovo valore della posizione della testa
                 player.map.snakeCoords.set(0, String.valueOf(x0) + " " + String.valueOf(y0 - 1));
 
             } catch (Exception e) {
+                gameOver = true;
                 JOptionPane.showMessageDialog(this, "Hai perso L", "Game Over", JOptionPane.ERROR_MESSAGE);
 
                 try {
@@ -294,13 +384,14 @@ public class Clock extends JFrame implements Runnable {
 
                     //Imposto le coordinate della cella successiva
                     player.map.snakeCoords.set(i + 1, String.valueOf(x1) + " " + String.valueOf(y1));
-                    //player.map.tile[x1][y1].direction = "Top";
+                    player.map.tile[x1][y1].direction = directions[i];
                 }
 
                 //Imposto il nuovo valore della posizione della testa
                 player.map.snakeCoords.set(0, String.valueOf(x0 - 1) + " " + String.valueOf(y0));
 
             } catch (Exception e) {
+                gameOver = true;
                 JOptionPane.showMessageDialog(this, "Hai perso L", "Game Over", JOptionPane.ERROR_MESSAGE);
 
                 try {
@@ -369,13 +460,14 @@ public class Clock extends JFrame implements Runnable {
 
                     //Imposto le coordinate della cella successiva
                     player.map.snakeCoords.set(i + 1, String.valueOf(x1) + " " + String.valueOf(y1));
-                    //player.map.tile[x1][y1].direction = "Bottom";
+                    player.map.tile[x1][y1].direction = directions[i];
                 }
 
                 //Imposto il nuovo valore della posizione della testa
                 player.map.snakeCoords.set(0, String.valueOf(x0 + 1) + " " + String.valueOf(y0));
 
             } catch (Exception e) {
+                gameOver = true;
                 JOptionPane.showMessageDialog(this, "Hai perso L", "Game Over", JOptionPane.ERROR_MESSAGE);
 
                 try {
