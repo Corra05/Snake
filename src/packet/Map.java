@@ -8,8 +8,6 @@ import java.util.Vector;
 public class Map extends JFrame{
     final int dimension = 18;
     final int sizes = 40;
-    int apples = 0;
-
     boolean appleSpawned = false;
 
     //Immagini utilizzate

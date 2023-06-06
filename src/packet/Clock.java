@@ -128,8 +128,8 @@ public class Clock extends JFrame implements Runnable {
                 if(player.map.tile[x0][y0 + 1].hasApple){
                     player.map.snakeCoords.addElement(String.valueOf(xMax) + " " + String.valueOf(yMax));
                     player.map.appleSpawned = false;
-                    player.map.apples += 1;
-                    player.map.score.setText(String.valueOf(player.map.apples));
+                    player.map.tile[x0][y0 + 1].hasApple = false;
+                    player.map.score.setText(String.valueOf(player.map.snakeCoords.size() - 3));
                 }
                 else if(player.map.tile[x0][y0 + 1].hasSnake){
                     JOptionPane.showMessageDialog(this, "Hai perso L", "Game Over",JOptionPane.ERROR_MESSAGE);
@@ -193,8 +193,8 @@ public class Clock extends JFrame implements Runnable {
                 if(player.map.tile[x0][y0 - 1].hasApple){
                     player.map.snakeCoords.addElement(String.valueOf(xMax) + " " + String.valueOf(yMax));
                     player.map.appleSpawned = false;
-                    player.map.apples += 1;
-                    player.map.score.setText(String.valueOf(player.map.apples));
+                    player.map.tile[x0][y0 - 1].hasApple = false;
+                    player.map.score.setText(String.valueOf(player.map.snakeCoords.size() - 3));
                 }
                 else if(player.map.tile[x0][y0 - 1].hasSnake){
                     JOptionPane.showMessageDialog(this, "Hai perso L", "Game Over",JOptionPane.ERROR_MESSAGE);
@@ -258,8 +258,8 @@ public class Clock extends JFrame implements Runnable {
                 if(player.map.tile[x0 - 1][y0].hasApple){
                     player.map.snakeCoords.addElement(String.valueOf(xMax) + " " + String.valueOf(yMax));
                     player.map.appleSpawned = false;
-                    player.map.apples += 1;
-                    player.map.score.setText(String.valueOf(player.map.apples));
+                    player.map.tile[x0 - 1][y0].hasApple = false;
+                    player.map.score.setText(String.valueOf(player.map.snakeCoords.size() - 3));
                 }
                 else if(player.map.tile[x0 - 1][y0].hasSnake){
                     JOptionPane.showMessageDialog(this, "Hai perso L", "Game Over",JOptionPane.ERROR_MESSAGE);
@@ -323,8 +323,8 @@ public class Clock extends JFrame implements Runnable {
                 if(player.map.tile[x0 + 1][y0].hasApple){
                     player.map.snakeCoords.addElement(String.valueOf(xMax) + " " + String.valueOf(yMax));
                     player.map.appleSpawned = false;
-                    player.map.apples += 1;
-                    player.map.score.setText(String.valueOf(player.map.apples));
+                    player.map.tile[x0 + 1][y0].hasApple = false;
+                    player.map.score.setText(String.valueOf(player.map.snakeCoords.size() - 3));
                 }
                 else if(player.map.tile[x0 + 1][y0].hasSnake){
                     JOptionPane.showMessageDialog(this, "Hai perso L", "Game Over",JOptionPane.ERROR_MESSAGE);

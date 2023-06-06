@@ -1,6 +1,7 @@
 package packet;
 
 public class Timer implements Runnable {
+    int var;
     int sec = 0;
     int min = 0;
     Clock clock;
@@ -38,8 +39,22 @@ public class Timer implements Runnable {
                 throw new RuntimeException(e);
             }
 
-            if(!clock.player.map.appleSpawned && !clock.loop){
+            for (int i = 1; i < clock.player.map.dimension - 1; i++) {
+                var = 0;
+                for (int j = 1; j < clock.player.map.dimension - 1; j++) {
+                    if(clock.player.map.tile[i][j].hasApple){
+                        var++;
+                    }
+                }
+            }
+
+            if(var > 0){
                 clock.loop = true;
+            }else{
+                clock.loop = false;
+            }
+
+            if(!clock.player.map.appleSpawned && !clock.loop){
                 SpawnApple();
             }
         }
@@ -58,7 +73,5 @@ public class Timer implements Runnable {
 
         clock.player.map.tile[X][Y].hasApple = true;
         clock.player.map.tile[X][Y].setIcon(clock.player.map.apple);
-
-        clock.loop = false;
     }
 }
