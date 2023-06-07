@@ -3,7 +3,6 @@ package packet;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.swing.*;
-import java.awt.*;
 import java.io.File;
 import java.util.Random;
 
@@ -44,7 +43,7 @@ public class Clock extends JFrame implements Runnable {
             }
 
             try {
-                Thread.sleep(200);
+                Thread.sleep(300);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
