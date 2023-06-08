@@ -209,6 +209,7 @@ public class Clock extends JFrame implements Runnable {
                     }
 
                 } else if (player.map.tile[x0][y0 + 1].hasSnake) {
+                    gameOver = true;
                     JOptionPane.showMessageDialog(this, "Hai perso L", "Game Over", JOptionPane.ERROR_MESSAGE);
 
                     try {
@@ -285,6 +286,7 @@ public class Clock extends JFrame implements Runnable {
                     }
 
                 } else if (player.map.tile[x0][y0 - 1].hasSnake) {
+                    gameOver = true;
                     JOptionPane.showMessageDialog(this, "Hai perso L", "Game Over", JOptionPane.ERROR_MESSAGE);
 
                     try {
@@ -361,6 +363,7 @@ public class Clock extends JFrame implements Runnable {
                     }
 
                 } else if (player.map.tile[x0 - 1][y0].hasSnake) {
+                    gameOver = true;
                     JOptionPane.showMessageDialog(this, "Hai perso L", "Game Over", JOptionPane.ERROR_MESSAGE);
 
                     try {
@@ -437,6 +440,7 @@ public class Clock extends JFrame implements Runnable {
                     }
 
                 } else if (player.map.tile[x0 + 1][y0].hasSnake) {
+                    gameOver = true;
                     JOptionPane.showMessageDialog(this, "Hai perso L", "Game Over", JOptionPane.ERROR_MESSAGE);
 
                     try {
