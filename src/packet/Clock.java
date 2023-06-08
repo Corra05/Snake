@@ -127,13 +127,13 @@ public class Clock extends JFrame implements Runnable {
             int xAfter = Integer.parseInt(coordinates[0]);
             int yAfter = Integer.parseInt(coordinates[1]);
 
-            if (player.map.tile[xPrevious][yPrevious].direction.equals("Top") && player.map.tile[xAfter][yAfter].direction.equals("Right") || player.map.tile[xPrevious][yPrevious].direction.equals("Left") && player.map.tile[xAfter][yAfter].direction.equals("Bottom")) {
+            if((yPrevious < y && xAfter < x) || (xPrevious < x && yAfter < y)){
                 player.map.tile[x][y].setIcon(player.map.snakeCornerBottomRight);
-            } else if (player.map.tile[xPrevious][yPrevious].direction.equals("Top") && player.map.tile[xAfter][yAfter].direction.equals("Left") || player.map.tile[xPrevious][yPrevious].direction.equals("Right") && player.map.tile[xAfter][yAfter].direction.equals("Bottom")) {
+            }else if((yPrevious > y && xAfter < x) || (xPrevious < x && yAfter > y)){
                 player.map.tile[x][y].setIcon(player.map.snakeCornerBottomLeft);
-            } else if (player.map.tile[xPrevious][yPrevious].direction.equals("Bottom") && player.map.tile[xAfter][yAfter].direction.equals("Right") || player.map.tile[xPrevious][yPrevious].direction.equals("Left") && player.map.tile[xAfter][yAfter].direction.equals("Top")) {
+            }else if((yPrevious < y && xAfter > x) || (xPrevious > x && yAfter < y)){
                 player.map.tile[x][y].setIcon(player.map.snakeCornerTopRight);
-            } else if (player.map.tile[xPrevious][yPrevious].direction.equals("Bottom") && player.map.tile[xAfter][yAfter].direction.equals("Left") || player.map.tile[xPrevious][yPrevious].direction.equals("Right") && player.map.tile[xAfter][yAfter].direction.equals("Top")) {
+            }else if((yPrevious > y && xAfter > x) || (xPrevious > x && yAfter > y)){
                 player.map.tile[x][y].setIcon(player.map.snakeCornerTopLeft);
             }
         }
