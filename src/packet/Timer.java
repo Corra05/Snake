@@ -17,8 +17,8 @@ public class Timer implements Runnable {
     @Override
     public void run() {
         while (true) {
-            //Effetto audio movimento
             if(!clock.gameOver){
+                //Effetto audio movimento
                 try {
                     File file = new File("movingSound.wav"); // Inserire il percorso del file audio clic
                     Clip clip = AudioSystem.getClip();
@@ -28,6 +28,7 @@ public class Timer implements Runnable {
                     ex.printStackTrace();
                 }
 
+                //Incremento timer di gioco
                 sec++;
 
                 if (!(sec < 60)) {
@@ -55,6 +56,7 @@ public class Timer implements Runnable {
                     throw new RuntimeException(e);
                 }
 
+                //Controllo la presenza o meno di mele nella mappa
                 for (int i = 1; i < clock.player.map.dimension - 1; i++) {
                     var = 0;
                     for (int j = 1; j < clock.player.map.dimension - 1; j++) {
@@ -70,6 +72,7 @@ public class Timer implements Runnable {
                     clock.loop = false;
                 }
 
+                //Metto una mela nella mappa
                 if (!clock.player.map.appleSpawned && !clock.loop) {
                     SpawnApple();
                 }
@@ -77,10 +80,12 @@ public class Timer implements Runnable {
         }
     }
 
+    //Metodo per aggiungere le mele nella mappa
     private void SpawnApple() {
         int X;
         int Y;
 
+        //Controllo di non piazzare la mela sopra il serpente
         do {
             X = clock.rand.nextInt(1, clock.player.map.dimension - 1);
             Y = clock.rand.nextInt(1, clock.player.map.dimension - 1);

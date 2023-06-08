@@ -16,15 +16,22 @@ public class PlayerListener implements KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
+        //Coordinate della testa
         str = map.snakeCoords.elementAt(0);
 
         String[] coordinates = str.split(" ");
         int x = Integer.parseInt(coordinates[0]);
         int y = Integer.parseInt(coordinates[1]);
 
+        //Cambio la direzione della testa
         try{
             if (!map.tile[x][y].direction.equals("Left") && ((e.getKeyChar() == 'd') || (e.getKeyChar() == 'D'))) {
+                //Se non ho ancora iniziato il gioco premo D per iniziare
                 if (start) {
+                    map.logo.setText(null);
+                    map.logo.setIcon(map.gameLogo);
+
+                    //Clock è la classe principale del progetto, qui avviene tutta la logica
                     clock = new Thread(new Clock(this));
                     clock.start();
 

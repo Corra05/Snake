@@ -17,6 +17,8 @@ public class Clock extends JFrame implements Runnable {
 
     public Clock(PlayerListener player) {
         this.player = player;
+
+        //Timer é utile per l'orologio del gioco e per aggiungere le mele
         Thread timer = new Thread(new Timer(this));
         timer.start();
     }
@@ -24,14 +26,17 @@ public class Clock extends JFrame implements Runnable {
     @Override
     public void run() {
         while (true) {
+            //Mostro/cambio le icone del serpente
             SnakeIcons();
 
+            //Ripulisco la mappa dalle precedenti posizioni occupate dal serpente
             for (int i = 1; i < player.map.dimension - 1; i++) {
                 for (int j = 1; j < player.map.dimension - 1; j++) {
                     player.map.tile[i][j].hasSnake = false;
                 }
             }
 
+            //Imposto sulla mappa le nuove posizioni occupate dal serpente
             for (int i = 0; i < player.map.snakeCoords.size(); i++) {
                 str = player.map.snakeCoords.elementAt(i);
 
@@ -48,6 +53,7 @@ public class Clock extends JFrame implements Runnable {
                 throw new RuntimeException(e);
             }
 
+            //Fa avanzare il serpente nella direzione della testa
             moveSnake();
         }
     }
@@ -58,7 +64,7 @@ public class Clock extends JFrame implements Runnable {
         int x;
         int y;
 
-        //Icona testa
+        //Imposto l'icona della testa
         str = player.map.snakeCoords.elementAt(0);
 
         coordinates = str.split(" ");
@@ -75,7 +81,7 @@ public class Clock extends JFrame implements Runnable {
             player.map.tile[x][y].setIcon(player.map.snakeHeadBottom);
         }
 
-        //Icona coda
+        //Imposto l'icone della coda
         str = player.map.snakeCoords.elementAt(player.map.snakeCoords.size() - 1);
 
         coordinates = str.split(" ");
@@ -92,7 +98,7 @@ public class Clock extends JFrame implements Runnable {
             player.map.tile[x][y].setIcon(player.map.snakeTailBottom);
         }
 
-        //Icone resto del body
+        //Imposto le icone del resto del body
         for (int i = 1; i < player.map.snakeCoords.size() - 1; i++) {
             str = player.map.snakeCoords.elementAt(i);
 
@@ -107,7 +113,7 @@ public class Clock extends JFrame implements Runnable {
             }
         }
 
-        //Icone degli angoli
+        //Imposto le icone degli angoli
         for (int i = 1; i < player.map.snakeCoords.size() - 1; i++) {
             str = player.map.snakeCoords.elementAt(i);
 
@@ -127,6 +133,7 @@ public class Clock extends JFrame implements Runnable {
             int xAfter = Integer.parseInt(coordinates[0]);
             int yAfter = Integer.parseInt(coordinates[1]);
 
+            //Eseguo un controllo su dove sono presenti le caselle vicine aventi serpente
             if((yPrevious < y && xAfter < x) || (xPrevious < x && yAfter < y)){
                 player.map.tile[x][y].setIcon(player.map.snakeCornerBottomRight);
             }else if((yPrevious > y && xAfter < x) || (xPrevious < x && yAfter > y)){
@@ -140,8 +147,9 @@ public class Clock extends JFrame implements Runnable {
     }
 
     public void moveSnake() {
+        //Inserisco in un array le direzioni delle caselle del serpente, così da poterle poi dare
+        //alle altre caselle dopo il movimento
         String[] directions = new String[player.map.snakeCoords.size()];
-
 
         for (int i = 0; i < player.map.snakeCoords.size(); i++) {
             //Coordinate della testa del serpente
@@ -153,14 +161,6 @@ public class Clock extends JFrame implements Runnable {
 
             directions[i] = player.map.tile[x][y].direction;
         }
-
-        /*
-        for (int i = 0; i < player.map.snakeCoords.size(); i++) {
-            System.out.println(directions[i]);
-        }
-
-        System.out.println("---------------------");
-        */
 
         //Coordinate della testa del serpente
         str = player.map.snakeCoords.elementAt(0);
@@ -189,9 +189,10 @@ public class Clock extends JFrame implements Runnable {
                 int xMax = Integer.parseInt(coordinates[0]);
                 int yMax = Integer.parseInt(coordinates[1]);
 
-                //Elimino la coda
+                //Elimino l'icona della coda
                 player.map.tile[xMax][yMax].setIcon(null);
 
+                //Controllo se la casella successiva ha una mela
                 if (player.map.tile[x0][y0 + 1].hasApple) {
                     player.map.snakeCoords.addElement(String.valueOf(xMax) + " " + String.valueOf(yMax));
                     player.map.appleSpawned = false;
@@ -208,7 +209,9 @@ public class Clock extends JFrame implements Runnable {
                         ex.printStackTrace();
                     }
 
-                } else if (player.map.tile[x0][y0 + 1].hasSnake) {
+                }
+                //Controllo se la casella successiva ha una parte del serpente
+                else if (player.map.tile[x0][y0 + 1].hasSnake) {
                     gameOver = true;
                     JOptionPane.showMessageDialog(this, "Hai perso L", "Game Over", JOptionPane.ERROR_MESSAGE);
 
@@ -227,12 +230,12 @@ public class Clock extends JFrame implements Runnable {
                     //Prendo le coordinate di ogni posizione dell'array
                     coordinates = coordinates1[i].split(" ");
 
-                    int x1 = Integer.parseInt(coordinates[0]);
-                    int y1 = Integer.parseInt(coordinates[1]);
+                    int x = Integer.parseInt(coordinates[0]);
+                    int y = Integer.parseInt(coordinates[1]);
 
                     //Imposto le coordinate della cella successiva
-                    player.map.snakeCoords.set(i + 1, String.valueOf(x1) + " " + String.valueOf(y1));
-                    player.map.tile[x1][y1].direction = directions[i];
+                    player.map.snakeCoords.set(i + 1, String.valueOf(x) + " " + String.valueOf(y));
+                    player.map.tile[x][y].direction = directions[i];
                 }
 
                 //Imposto il nuovo valore della posizione della testa
@@ -266,9 +269,10 @@ public class Clock extends JFrame implements Runnable {
                 int xMax = Integer.parseInt(coordinates[0]);
                 int yMax = Integer.parseInt(coordinates[1]);
 
-                //Elimino la coda
+                //Elimino l'icona della coda
                 player.map.tile[xMax][yMax].setIcon(null);
 
+                //Controllo se la casella successiva ha una mela
                 if (player.map.tile[x0][y0 - 1].hasApple) {
                     player.map.snakeCoords.addElement(String.valueOf(xMax) + " " + String.valueOf(yMax));
                     player.map.appleSpawned = false;
@@ -285,7 +289,9 @@ public class Clock extends JFrame implements Runnable {
                         ex.printStackTrace();
                     }
 
-                } else if (player.map.tile[x0][y0 - 1].hasSnake) {
+                }
+                //Controllo se la casella successiva ha una parte del serpente
+                else if (player.map.tile[x0][y0 - 1].hasSnake) {
                     gameOver = true;
                     JOptionPane.showMessageDialog(this, "Hai perso L", "Game Over", JOptionPane.ERROR_MESSAGE);
 
@@ -304,12 +310,12 @@ public class Clock extends JFrame implements Runnable {
                     //Prendo le coordinate di ogni posizione dell'array
                     coordinates = coordinates1[i].split(" ");
 
-                    int x1 = Integer.parseInt(coordinates[0]);
-                    int y1 = Integer.parseInt(coordinates[1]);
+                    int x = Integer.parseInt(coordinates[0]);
+                    int y = Integer.parseInt(coordinates[1]);
 
                     //Imposto le coordinate della cella successiva
-                    player.map.snakeCoords.set(i + 1, String.valueOf(x1) + " " + String.valueOf(y1));
-                    player.map.tile[x1][y1].direction = directions[i];
+                    player.map.snakeCoords.set(i + 1, String.valueOf(x) + " " + String.valueOf(y));
+                    player.map.tile[x][y].direction = directions[i];
                 }
 
                 //Imposto il nuovo valore della posizione della testa
@@ -343,9 +349,10 @@ public class Clock extends JFrame implements Runnable {
                 int xMax = Integer.parseInt(coordinates[0]);
                 int yMax = Integer.parseInt(coordinates[1]);
 
-                //Elimino la coda
+                //Elimino l'icona della coda
                 player.map.tile[xMax][yMax].setIcon(null);
 
+                //Controllo se la casella successiva ha una mela
                 if (player.map.tile[x0 - 1][y0].hasApple) {
                     player.map.snakeCoords.addElement(String.valueOf(xMax) + " " + String.valueOf(yMax));
                     player.map.appleSpawned = false;
@@ -362,7 +369,9 @@ public class Clock extends JFrame implements Runnable {
                         ex.printStackTrace();
                     }
 
-                } else if (player.map.tile[x0 - 1][y0].hasSnake) {
+                }
+                //Controllo se la casella successiva ha una parte del serpente
+                else if (player.map.tile[x0 - 1][y0].hasSnake) {
                     gameOver = true;
                     JOptionPane.showMessageDialog(this, "Hai perso L", "Game Over", JOptionPane.ERROR_MESSAGE);
 
@@ -381,12 +390,12 @@ public class Clock extends JFrame implements Runnable {
                     //Prendo le coordinate di ogni posizione dell'array
                     coordinates = coordinates1[i].split(" ");
 
-                    int x1 = Integer.parseInt(coordinates[0]);
-                    int y1 = Integer.parseInt(coordinates[1]);
+                    int x = Integer.parseInt(coordinates[0]);
+                    int y = Integer.parseInt(coordinates[1]);
 
                     //Imposto le coordinate della cella successiva
-                    player.map.snakeCoords.set(i + 1, String.valueOf(x1) + " " + String.valueOf(y1));
-                    player.map.tile[x1][y1].direction = directions[i];
+                    player.map.snakeCoords.set(i + 1, String.valueOf(x) + " " + String.valueOf(y));
+                    player.map.tile[x][y].direction = directions[i];
                 }
 
                 //Imposto il nuovo valore della posizione della testa
@@ -420,9 +429,10 @@ public class Clock extends JFrame implements Runnable {
                 int xMax = Integer.parseInt(coordinates[0]);
                 int yMax = Integer.parseInt(coordinates[1]);
 
-                //Elimino la coda
+                //Elimino l'icona della coda
                 player.map.tile[xMax][yMax].setIcon(null);
 
+                //Controllo se la casella successiva ha una mela
                 if (player.map.tile[x0 + 1][y0].hasApple) {
                     player.map.snakeCoords.addElement(String.valueOf(xMax) + " " + String.valueOf(yMax));
                     player.map.appleSpawned = false;
@@ -439,7 +449,9 @@ public class Clock extends JFrame implements Runnable {
                         ex.printStackTrace();
                     }
 
-                } else if (player.map.tile[x0 + 1][y0].hasSnake) {
+                }
+                //Controllo se la casella successiva ha una parte del serpente
+                else if (player.map.tile[x0 + 1][y0].hasSnake) {
                     gameOver = true;
                     JOptionPane.showMessageDialog(this, "Hai perso L", "Game Over", JOptionPane.ERROR_MESSAGE);
 
@@ -458,12 +470,12 @@ public class Clock extends JFrame implements Runnable {
                     //Prendo le coordinate di ogni posizione dell'array
                     coordinates = coordinates1[i].split(" ");
 
-                    int x1 = Integer.parseInt(coordinates[0]);
-                    int y1 = Integer.parseInt(coordinates[1]);
+                    int x = Integer.parseInt(coordinates[0]);
+                    int y = Integer.parseInt(coordinates[1]);
 
                     //Imposto le coordinate della cella successiva
-                    player.map.snakeCoords.set(i + 1, String.valueOf(x1) + " " + String.valueOf(y1));
-                    player.map.tile[x1][y1].direction = directions[i];
+                    player.map.snakeCoords.set(i + 1, String.valueOf(x) + " " + String.valueOf(y));
+                    player.map.tile[x][y].direction = directions[i];
                 }
 
                 //Imposto il nuovo valore della posizione della testa

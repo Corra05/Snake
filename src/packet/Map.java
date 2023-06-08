@@ -66,14 +66,17 @@ public class Map extends JFrame {
 
         //Aggiunta barra superiore
         upperBar.setLayout(new GridLayout(1, 3));
+        timer.setFont(new Font("Arial",Font.BOLD,18));
         timer.setText("00:00");
         timer.setBorder(new EmptyBorder(10, 30, 10, 0));
-        logo.setIcon(gameLogo);
+        logo.setFont(new Font("Arial",Font.BOLD,15));
+        logo.setText("Premi D per iniziare (usa WASD)");
 
         upperBarDx.setLayout(new FlowLayout(FlowLayout.RIGHT));
         appleIcon.setIcon(apple);
+        score.setFont(new Font("Arial",Font.BOLD,18));
         score.setText("0");
-        score.setBorder(new EmptyBorder(10, 0, 10, 30));
+        score.setBorder(new EmptyBorder(20, 0, 10, 30));
 
         upperBarDx.add(appleIcon);
         upperBarDx.add(score);
@@ -123,6 +126,7 @@ public class Map extends JFrame {
             }
         }
 
+        //Pezzi iniziali del serpente
         initialSetup();
 
         cont.add(grid);
